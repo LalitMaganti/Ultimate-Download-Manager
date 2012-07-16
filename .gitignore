@@ -4,9 +4,12 @@
 *.o
 
 # Compiled Dynamic libraries
-*.so
+*.so*
 
 # Compiled Static libraries
 *.lai
 *.la
 *.a
+
+# Environment files
+*user
