@@ -26,12 +26,14 @@ private slots:
     void setItem(WgetProgressObject* cmdoutput);
     void setItem(QString status, int index = 2);
     void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
-
     void on_tableWidget_itemSelectionChanged();
+
+    void on_tabWidgetMain_tabCloseRequested(int index);
 
 private:
     Ui::MainWindow *ui;
     QList<DownloadFile*> listOfDownloads;
+    int downloadsCount;
 };
 
 #endif // MAINWINDOW_H

@@ -19,10 +19,6 @@ HEADERS += downloadfile.h \
 QMAKE_CXXFLAGS += -std=c++0x
 
 unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/lib
-    } else {
-        target.path = /usr/lib
-    }
+    target.path = /usr/lib
     INSTALLS += target
 }

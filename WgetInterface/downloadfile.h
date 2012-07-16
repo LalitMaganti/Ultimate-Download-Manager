@@ -9,6 +9,7 @@ public:
     DownloadFile(){}
     DownloadFile(QString url);
     WgetProcess* getWgetProcess();
+    bool tabOpen;
     void download();
 private:
     WgetProcess wp;

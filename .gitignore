@@ -11,5 +11,15 @@
 *.la
 *.a
 
-# Environment files
-*user
+# Environment and autosave files
+*.user
+*.autosave
+
+# Makefiles
+Makefile
+
+# Moc files
+moc_*.cpp
+
+# UI temp headers
+ui_*.h
