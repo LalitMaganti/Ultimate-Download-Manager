@@ -13,7 +13,14 @@ WgetProcess* DownloadFile::getWgetProcess()
 void DownloadFile::download()
 {
     QStringList args(url);
-    args << "-c";
+    if (resumable)
+        args << "-c";
     wp.startWget(args);
+    progressObject = &wp.progressObject;
+}
+
+void DownloadFile::stopProcess()
+{
+    wp.terminate();
 }
 

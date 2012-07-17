@@ -3,6 +3,7 @@
 
 #include <QProcess>
 #include <QDebug>
+#include <QTime>
 #include "wgetprogressobject.h"
 
 class WgetProcess : public QProcess
@@ -24,6 +25,7 @@ private slots:
 
 private:
     void processRawData(QString *line);
+    QString processTime(QChar big, QChar small, QString *substring2);
 };
 
 #endif // WGETPROCESS_H

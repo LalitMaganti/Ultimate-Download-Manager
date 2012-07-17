@@ -12,7 +12,7 @@ class DetailsTab : public QWidget
 {
     Q_OBJECT
 public:
-    DetailsTab(QString buffer, QWidget *parent = 0);
+    DetailsTab(QString buffer);
     ~DetailsTab();
     DownloadFile *downloadFile;
 private slots:

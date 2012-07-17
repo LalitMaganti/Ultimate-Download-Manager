@@ -32,3 +32,6 @@ else:unix:!symbian: LIBS += -L$$OUT_PWD/../WgetInterface/ -lWgetInterface
 
 INCLUDEPATH += $$PWD/../WgetInterface
 DEPENDPATH += $$PWD/../WgetInterface
+
+OTHER_FILES += \
+    Images/UDM.ico

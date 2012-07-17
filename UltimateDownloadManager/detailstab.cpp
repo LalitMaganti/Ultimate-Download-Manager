@@ -2,25 +2,19 @@
 #include <QLabel>
 #include "QTableWidgetItem"
 
-DetailsTab::DetailsTab(QString buffer, QWidget *parent)
+DetailsTab::DetailsTab(QString buffer)
 {
     mainLayout = new QGridLayout;
     d = new QTextEdit;
+    d->setReadOnly(true);
     d->setText(buffer);
-    j = new QLabel("Details");
     mainLayout->addWidget(d, 0, 0, 1, 5);
+    j = new QLabel("Details");
+    mainLayout->addWidget(j, 1, 0, 1, 5);
     lblLength = new QLabel("Length: Processing");
-    mainLayout->addWidget(lblLength, 1, 0, 1, 5);
+    mainLayout->addWidget(lblLength, 2, 0);
     lblStatus = new QLabel("Status: Running");
-    mainLayout->addWidget(lblStatus, 2, 0);
-    j = new QLabel("ddd");
-    mainLayout->addWidget(j, 2, 1);
-    j = new QLabel("ddd");
-    mainLayout->addWidget(j, 2, 2);
-    j = new QLabel("ddd");
-    mainLayout->addWidget(j, 2, 3);
-    j = new QLabel("ddd");
-    mainLayout->addWidget(j, 2, 4);
+    mainLayout->addWidget(lblStatus, 2, 1);
     setLayout(mainLayout);
 }
 
@@ -50,6 +44,6 @@ void DetailsTab::setItem(QString status, int index)
     }
     else
     {
-        lblLength->setText("Length " + status);
+        lblLength->setText("Length: " + status);
     }
 }
