@@ -12,20 +12,25 @@ class WgetProcess : public QProcess
 public:
     WgetProcess();
     WgetProgressObject progressObject;
-    void startWget(QStringList args);
+    void startWget(const QStringList args);
+    void terminateWget();
     
 signals:
-    void lineRead(WgetProgressObject *wpo);
-    void lengthChanged(WgetProgressObject *wpo);
-    void wgetStatusChanged(QString status);
+    void progressChanged(WgetProgressObject *const wpo);
+    void lineRead(WgetProgressObject *const wpo);
+    void lengthChanged(WgetProgressObject *const wpo);
+    void wgetStatusChanged(const QString status);
 
 private slots:
     void readWgetLine();
     void processFinished(int code);
 
 private:
-    void processRawData(QString *line);
-    QString processTime(QChar big, QChar small, QString *substring2);
+    void processRawData(QString *const line);
+    void processLength(QString *const line);
+    void processProgress(QString *const line);
+    void processTime(QString *const line);
+    QString processTime(const QChar big, const QChar small, QString *const substring2);
 };
 
 #endif // WGETPROCESS_H

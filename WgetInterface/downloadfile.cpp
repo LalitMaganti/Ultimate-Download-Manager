@@ -5,9 +5,10 @@ DownloadFile::DownloadFile(QString urlarg)
     url = urlarg;
 }
 
-WgetProcess* DownloadFile::getWgetProcess()
+DownloadFile::~DownloadFile()
 {
-    return &wp;
+    if (!(progressObject->status == "Finished"))
+        stopProcess();
 }
 
 void DownloadFile::download()
@@ -21,6 +22,5 @@ void DownloadFile::download()
 
 void DownloadFile::stopProcess()
 {
-    wp.terminate();
+    wp.terminateWget();
 }
-

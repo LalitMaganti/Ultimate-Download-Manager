@@ -6,15 +6,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-#if QT_VERSION >= 0x050000
-    // Only available in QT5
-    ui->tabWidgetMain->setTabsClosable(true);
-    ui->tabWidgetMain->tabBar()->tabButton(0, QTabBar::RightSide)->hide();
-#endif
+    ui->tabWidgetMain->tabBarPublic->tabButton(0, QTabBar::RightSide)->hide();
 }
 
 MainWindow::~MainWindow()
 {
+    for(int tabIndex = 1; tabIndex < ui->tabWidgetMain->count(); tabIndex++)
+    {
+        delete ui->tabWidgetMain->widget(tabIndex);
+    }
     for(int row = 0; row < ui->tableWidget->rowCount(); row++)
     {
         for(int column = 0; column < ui->tableWidget->columnCount(); column++)
@@ -26,30 +26,25 @@ MainWindow::~MainWindow()
     {
         for(DownloadFile *file: listOfDownloads)
         {
-            if (!(file->progressObject->status == "Finished"))
-                file->stopProcess();
             delete file;
         }
-    }
-    for(int tabIndex = 1; tabIndex < ui->tabWidgetMain->count(); tabIndex++)
-    {
-        delete ui->tabWidgetMain->widget(tabIndex);
     }
     delete ui;
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    AddDialog *add = new AddDialog();
+    AddDialog *const add = new AddDialog();
     int d = add->exec();
-    DownloadFile *df = add->fileGlobal;
+    DownloadFile *const df = add->fileGlobal;
     if ((d = QDialog::Accepted && !(add->url == "") && !(add->url == NULL)))
     {
         listOfDownloads.append(df);
         downloadsCount = listOfDownloads.count();
-        connect(df->getWgetProcess(), SIGNAL(lengthChanged(WgetProgressObject*)), this, SLOT(setItem(WgetProgressObject*)));
-        connect(df->getWgetProcess(), SIGNAL(wgetStatusChanged(QString)), this, SLOT(setItem(QString)));
-        connect(df->getWgetProcess(), SIGNAL(lineRead(WgetProgressObject*)), this, SLOT(setProgress(WgetProgressObject*)));
+        connect(df->getWgetProcess(), SIGNAL(lengthChanged(WgetProgressObject *const)), this, SLOT(setItem(WgetProgressObject* const)));
+        connect(df->getWgetProcess(), SIGNAL(wgetStatusChanged(QString)), this, SLOT(setItem(const QString)));
+        connect(df->getWgetProcess(), SIGNAL(progressChanged(WgetProgressObject *const)), this, SLOT(setProgress(WgetProgressObject* const)));
+        connect(df->getWgetProcess(), SIGNAL(lineRead(WgetProgressObject *const)), this, SLOT(setProgress(WgetProgressObject* const)));
         ui->tableWidget->setRowCount(downloadsCount);
         setItem(add->url, 0);
         df->download();
@@ -57,64 +52,54 @@ void MainWindow::on_pushButton_clicked()
     delete add;
 }
 
-void MainWindow::setProgress(WgetProgressObject* cmdoutput)
+void MainWindow::setProgress(WgetProgressObject *const progressObject)
 {
-    if (cmdoutput->progress == -1)
+    if (progressObject->progress == -1)
         setItem("Unknown", 3);
     else
-        setItem((QString::number(cmdoutput->progress) + "%"), 3);
+        setItem((QString::number(progressObject->progress) + "%"), 3);
 }
 
-void MainWindow::setItem(WgetProgressObject* cmdoutput)
+void MainWindow::setItem(WgetProgressObject *const progressObject)
 {
-     setItem(cmdoutput->length, 1);
+     setItem(progressObject->length, 1);
 }
 
-void MainWindow::setItem(QString status, int index)
+void MainWindow::setItem(const QString stringTowWrite, int index)
 {
-    QTableWidgetItem *item = new QTableWidgetItem(status);
+    delete ui->tableWidget->item(downloadsCount - 1, index);
+    QTableWidgetItem *item = new QTableWidgetItem(stringTowWrite);
     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
     ui->tableWidget->setItem(downloadsCount - 1, index, item);
     ui->tableWidget->resizeColumnsToContents();
+    if (stringTowWrite == "Finished")
+        stopButtonChange(false);
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
     listOfDownloads[ui->tableWidget->selectedItems()[0]->row()]->stopProcess();
-    ui->pushButton_2->setEnabled(false);
+    stopButtonChange(false);
 }
 
 void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item)
 {
-    int rowNumber = item->row();
-    DownloadFile *file = listOfDownloads[rowNumber];
-    if (!(file->tabOpen))
+    const int rowNumber = item->row();
+    if (!(listOfDownloads[rowNumber]->tabOpen))
     {
-        file->tabOpen = true;
-        DetailsTab *newTab = new DetailsTab(file->progressObject->buffer);
-        if (!(file->progressObject->status == "Finished"))
-        {
-            connect(file->getWgetProcess(), SIGNAL(lineRead(WgetProgressObject*)), newTab, SLOT(outputCommand(WgetProgressObject*)));
-            connect(file->getWgetProcess(), SIGNAL(lengthChanged(WgetProgressObject*)), newTab, SLOT(setItem(WgetProgressObject*)));
-            connect(file->getWgetProcess(), SIGNAL(wgetStatusChanged(QString)), newTab, SLOT(setItem(QString)));
-        }
-        else
-        {
-            setItem(file->progressObject->status);
-            setItem(file->progressObject);
-        }
+        DetailsTab *const newTab = new DetailsTab(listOfDownloads[rowNumber]);
         QString lbl = "Download " + QString::number((rowNumber + 1));
-        newTab->downloadFile = file;
         ui->tabWidgetMain->addTab(newTab, lbl);
     }
 }
 
 void MainWindow::on_tableWidget_itemSelectionChanged()
 {
-    if (ui->tableWidget->selectedItems().count() > 0)
-        ui->pushButton_2->setEnabled(true);
+    DownloadFile *df = listOfDownloads[ui->tableWidget->selectedItems()[0]->row()];
+    if ((ui->tableWidget->selectedItems().count() > 0) && !(df->progressObject->status == "Finished"))
+        stopButtonChange(true);
     else
-        ui->pushButton_2->setEnabled(false);
+        stopButtonChange(false);
 }
 
 void MainWindow::on_tabWidgetMain_tabCloseRequested(int index)
@@ -124,8 +109,30 @@ void MainWindow::on_tabWidgetMain_tabCloseRequested(int index)
 
 void MainWindow::on_tabWidgetMain_currentChanged(int index)
 {
-    if (index == 0)
-        ui->pushButton_2->setEnabled(true);
+    DownloadFile *df = listOfDownloads[ui->tableWidget->selectedItems()[0]->row()];
+    if (index == 0  && !(df->progressObject->status == "Finished"))
+        stopButtonChange(true);
     else
-        ui->pushButton_2->setEnabled(false);
+        stopButtonChange(false);
+}
+
+void MainWindow::on_actionStop_triggered()
+{
+    on_pushButton_2_clicked();
+}
+
+void MainWindow::stopButtonChange(bool enable)
+{
+    ui->pushButton_2->setEnabled(enable);
+    ui->actionStop->setEnabled(enable);
+}
+
+void MainWindow::on_actionAdd_triggered()
+{
+    on_pushButton_clicked();
+}
+
+void MainWindow::on_actionQuit_triggered()
+{
+    this->close();
 }

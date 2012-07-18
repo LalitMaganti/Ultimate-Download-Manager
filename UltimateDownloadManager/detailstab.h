@@ -12,15 +12,16 @@ class DetailsTab : public QWidget
 {
     Q_OBJECT
 public:
-    DetailsTab(QString buffer);
+    DetailsTab(DownloadFile *df);
     ~DetailsTab();
     DownloadFile *downloadFile;
+    void setupUi();
 private slots:
-    void outputCommand(WgetProgressObject *cmdoutput);
-public slots:
-    void setItem(WgetProgressObject* cmdoutput);
-    void setItem(QString status, int index = 0);
+    void outputCommand( WgetProgressObject *const cmdoutput);
+    void setItem(WgetProgressObject *const cmdoutput);
+    void setItem(const QString status, int index = 0);
 private:
+    void deleteUi();
     QTextEdit *d;
     QGridLayout *mainLayout;
     QLabel* j;

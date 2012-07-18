@@ -8,8 +8,9 @@ class DownloadFile
 public:
     DownloadFile(){tabOpen = false;}
     DownloadFile(QString url);
+    ~DownloadFile();
     //TODO: Should be removed
-    WgetProcess* getWgetProcess();
+    WgetProcess* getWgetProcess(){return &wp;}
     // in the future
     bool tabOpen;
     bool resumable;

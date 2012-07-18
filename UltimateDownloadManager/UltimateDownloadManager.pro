@@ -17,9 +17,8 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
             mainwindow.h \
             adddialog.h \
-            ui_mainwindow.h \
-            ui_adddialog.h \
-            detailstab.h
+            detailstab.h \
+            downloadtabwidget.h
 
 FORMS    += mainwindow.ui \
             adddialog.ui
