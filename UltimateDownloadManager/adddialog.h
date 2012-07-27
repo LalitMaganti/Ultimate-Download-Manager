@@ -16,7 +16,8 @@ public:
     AddDialog();
     ~AddDialog();
     QString url;
-    DownloadFile *fileGlobal;
+    DownloadFile *fileGlobal = 0;
+    bool start;
     
 private slots:
     void on_buttonBox_accepted();

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>108</height>
+    <height>146</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,6 +32,16 @@
     <widget class="QCheckBox" name="checkBox">
      <property name="text">
       <string>Resumable Download</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="chkStart">
+     <property name="text">
+      <string>Start now?</string>
      </property>
      <property name="checked">
       <bool>true</bool>

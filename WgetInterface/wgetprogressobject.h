@@ -14,6 +14,7 @@ public:
     QString rawLine;
     QString buffer;
     QString status;
+    int row;
 };
 
 #endif // WGETPROGRESSOBJECT_H

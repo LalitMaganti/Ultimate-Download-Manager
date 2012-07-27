@@ -3,7 +3,7 @@
 
 #include "wgetprocess.h"
 
-class DownloadFile
+class DownloadFile : public WgetProcess
 {
 public:
     DownloadFile(){tabOpen = false;}
@@ -14,9 +14,12 @@ public:
     // in the future
     bool tabOpen;
     bool resumable;
+    bool started;
     void download();
     void stopProcess();
-    WgetProgressObject* progressObject;
+    void start();
+    void pause();
+    WgetProgressObject* progressObject = 0;
 
 private:
     WgetProcess wp;

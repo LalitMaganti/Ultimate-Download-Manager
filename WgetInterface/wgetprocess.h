@@ -14,12 +14,14 @@ public:
     WgetProgressObject progressObject;
     void startWget(const QStringList args);
     void terminateWget();
+    void pauseWget();
+    void restartWget(const QStringList args);
     
 signals:
     void progressChanged(WgetProgressObject *const wpo);
     void lineRead(WgetProgressObject *const wpo);
     void lengthChanged(WgetProgressObject *const wpo);
-    void wgetStatusChanged(const QString status);
+    void wgetStatusChanged(WgetProgressObject *const wpo);
 
 private slots:
     void readWgetLine();

@@ -24,17 +24,19 @@ private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void setProgress(WgetProgressObject *const cmdoutput);
-    void setItem(WgetProgressObject *const cmdoutput);
-    void setItem(const QString status, int index = 2);
+    void setStatus(WgetProgressObject *const cmdoutput);
+    void setLength(WgetProgressObject *const cmdoutput);
+    void setItem(const QString status, int row, int index);
     void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
     void on_tableWidget_itemSelectionChanged();
     void on_tabWidgetMain_tabCloseRequested(int index);
     void on_tabWidgetMain_currentChanged(int index);
     void on_actionStop_triggered();
-
     void on_actionAdd_triggered();
-
     void on_actionQuit_triggered();
+    void on_btnStartPause_clicked();
+
+    void on_btnDelete_clicked();
 
 private:
     Ui::MainWindow *ui;

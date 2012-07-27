@@ -4,7 +4,8 @@
 AddDialog::AddDialog() : QDialog(), ui(new Ui::AddDialog)
 {
     ui->setupUi(this);
-    fileGlobal = 0;
+    this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+    this->setFixedSize(width(), height());
 }
 
 AddDialog::~AddDialog()
@@ -17,4 +18,5 @@ void AddDialog::on_buttonBox_accepted()
     url = ui->lineEdit->text();
     fileGlobal = new DownloadFile(url);
     fileGlobal->resumable = ui->checkBox->isChecked();
+    start = ui->chkStart->isChecked();
 }

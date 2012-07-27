@@ -5,16 +5,18 @@ WgetProcess::WgetProcess()
     setReadChannel(QProcess::StandardError);
     connect(this, SIGNAL(readyReadStandardError()), this, SLOT(readWgetLine()));
     connect(this, SIGNAL(finished(int)), this, SLOT(processFinished(int)));
+    progressObject.progress = 0;
+    progressObject.status = "Pending";
+    progressObject.length = "Pending";
 }
 
 void WgetProcess::startWget(QStringList args)
 {
     progressObject.status = "Running";
     progressObject.length = "Processing";
-    progressObject.progress = 0;
     emit(lengthChanged(&progressObject));
     emit(progressChanged(&progressObject));
-    emit(wgetStatusChanged("Running"));
+    emit(wgetStatusChanged(&progressObject));
     start("wget", args);
 }
 
@@ -36,6 +38,7 @@ void WgetProcess::processLength(QString *const line)
     {
         progressObject.length = "Unknown - HTML file?";
         progressObject.progress = -1;
+        emit(progressChanged(&progressObject));
     }
     else
     {
@@ -103,16 +106,42 @@ inline QString WgetProcess::processTime(const QChar big, const QChar small, QStr
 
 void WgetProcess::terminateWget()
 {
+    if (!(progressObject.status == "Paused"))
+    {
+        progressObject.status = "Stopped";
+        terminate();
+    }
+    else
+    {
+        progressObject.status = "Stopped";
+        emit(wgetStatusChanged(&progressObject));
+    }
+}
+
+void WgetProcess::pauseWget()
+{
+    progressObject.status = "Paused";
     terminate();
-    progressObject.status = "Stopped";
-    emit(wgetStatusChanged(progressObject.status));
+}
+
+void WgetProcess::restartWget(const QStringList args)
+{
+    startWget(args);
 }
 
 void WgetProcess::processFinished(int code)
 {
-    if (code == 0)
+    if (progressObject.status == "Paused")
+        int i = 0;
+    else if (progressObject.status == "Stopped")
+        int i = 0;
+    else if (code == 0)
         progressObject.status = "Finished";
     else
+    {
         progressObject.status = "Failed";
-    emit(wgetStatusChanged(progressObject.status));
+        progressObject.length = "See log for more info";
+        lengthChanged(&progressObject);
+    }
+    emit(wgetStatusChanged(&progressObject));
 }
