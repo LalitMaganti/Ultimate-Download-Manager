@@ -34,10 +34,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    AddDialog *const add = new AddDialog();
-    int d = add->exec();
-    DownloadFile *const df = add->fileGlobal;
-    if ((d = QDialog::Accepted && !(add->url == "") && !(add->url == NULL)))
+    AddDialog add;
+    int result = add.exec();
+    DownloadFile *const df = add.fileGlobal;
+    if ((result == QDialog::Accepted) && !(add.url == ""))
     {
         listOfDownloads.append(df);
         downloadsCount = listOfDownloads.count();
@@ -46,8 +46,8 @@ void MainWindow::on_pushButton_clicked()
         connect(df->getWgetProcess(), SIGNAL(progressChanged(WgetProgressObject *const)), this, SLOT(setProgress(WgetProgressObject* const)));
         ui->tableWidget->setRowCount(downloadsCount);
         df->progressObject->row = (ui->tableWidget->rowCount() - 1);
-        setItem(add->url, df->progressObject->row, 0);
-        if (add->start)
+        setItem(add.url, df->progressObject->row, 0);
+        if (add.start)
             df->download();
         else
         {
@@ -56,7 +56,6 @@ void MainWindow::on_pushButton_clicked()
             ui->btnStartPause->setText("Start");
         }
     }
-    delete add;
 }
 
 void MainWindow::setProgress(WgetProgressObject *const progressObject)
@@ -85,12 +84,16 @@ void MainWindow::setItem(const QString stringToWrite, int row, int index)
     ui->tableWidget->setItem(row, index, item);
     ui->tableWidget->resizeColumnsToContents();
     if (stringToWrite == "Finished")
+    {
         stopButtonChange(false);
+        ui->btnDelete->setEnabled(true);
+    }
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    listOfDownloads[ui->tableWidget->selectedItems()[0]->row()]->stopProcess();
+    const int row = ui->tableWidget->selectedItems()[0]->row();
+    listOfDownloads[row]->stopProcess();
     ui->btnStartPause->setText("Pause");
     stopButtonChange(false);
     ui->btnDelete->setEnabled(true);
@@ -99,17 +102,21 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item)
 {
     const int rowNumber = item->row();
-    if (!(listOfDownloads[rowNumber]->tabOpen))
+    DownloadFile *df = listOfDownloads[rowNumber];
+    if (df->tabRow == -1)
     {
         DetailsTab *const newTab = new DetailsTab(listOfDownloads[rowNumber]);
         QString lbl = "Download " + QString::number((rowNumber + 1));
         ui->tabWidgetMain->addTab(newTab, lbl);
+        df->tabRow = ui->tabWidgetMain->count();
+        ui->tabWidgetMain->setCurrentIndex(df->tabRow);
     }
 }
 
 void MainWindow::on_tableWidget_itemSelectionChanged()
 {
-    DownloadFile *df = listOfDownloads[ui->tableWidget->selectedItems()[0]->row()];
+    const int row = ui->tableWidget->selectedItems()[0]->row();
+    DownloadFile *df = listOfDownloads[row];
     if ((ui->tableWidget->selectedItems().count() > 0) && !(df->progressObject->status == "Finished") && !(df->progressObject->status == "Stopped"))
         stopButtonChange(true);
     else
@@ -123,11 +130,15 @@ void MainWindow::on_tabWidgetMain_tabCloseRequested(int index)
 
 void MainWindow::on_tabWidgetMain_currentChanged(int index)
 {
-    DownloadFile *df = listOfDownloads[ui->tableWidget->selectedItems()[0]->row()];
+    const int row = ui->tableWidget->selectedItems()[0]->row();
+    DownloadFile *df = listOfDownloads[row];
     if (index == 0  && !(df->progressObject->status == "Finished") && !(df->progressObject->status == "Stopped"))
         stopButtonChange(true);
     else
+    {
         stopButtonChange(false);
+        ui->btnDelete->setEnabled(true);
+    }
 }
 
 void MainWindow::on_actionStop_triggered()
@@ -154,7 +165,8 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_btnStartPause_clicked()
 {
-    DownloadFile *selectedDownload = listOfDownloads[ui->tableWidget->selectedItems()[0]->row()];
+    const int row = ui->tableWidget->selectedItems()[0]->row();
+    DownloadFile *selectedDownload = listOfDownloads[row];
     if (selectedDownload->progressObject->status == "Running")
     {
         selectedDownload->pause();
@@ -169,5 +181,15 @@ void MainWindow::on_btnStartPause_clicked()
 
 void MainWindow::on_btnDelete_clicked()
 {
+    const int row = ui->tableWidget->selectedItems()[0]->row();
+    delete listOfDownloads[row];
+    listOfDownloads.removeAt(row);
+    ui->tableWidget->removeRow(row - 1);
     ui->btnDelete->setEnabled(false);
+}
+
+void MainWindow::on_actionSettings_triggered()
+{
+    Settings settingsdialog;
+    settingsdialog.exec();
 }

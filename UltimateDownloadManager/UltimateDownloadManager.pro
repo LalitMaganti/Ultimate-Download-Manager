@@ -12,16 +12,19 @@ TEMPLATE = app
 SOURCES += main.cpp\
            mainwindow.cpp \
            adddialog.cpp \
-           detailstab.cpp
+           detailstab.cpp \
+    settings.cpp
 
 HEADERS  += mainwindow.h \
             mainwindow.h \
             adddialog.h \
             detailstab.h \
-            downloadtabwidget.h
+            downloadtabwidget.h \
+    settings.h
 
 FORMS    += mainwindow.ui \
-            adddialog.ui
+            adddialog.ui \
+    settings.ui
 
 QMAKE_CXXFLAGS += -std=c++0x
 

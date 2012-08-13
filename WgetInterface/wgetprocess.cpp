@@ -131,17 +131,16 @@ void WgetProcess::restartWget(const QStringList args)
 
 void WgetProcess::processFinished(int code)
 {
-    if (progressObject.status == "Paused")
-        int i = 0;
-    else if (progressObject.status == "Stopped")
-        int i = 0;
-    else if (code == 0)
-        progressObject.status = "Finished";
-    else
+    if (!(progressObject.status == "Paused" || progressObject.status == "Stopped"))
     {
-        progressObject.status = "Failed";
-        progressObject.length = "See log for more info";
-        lengthChanged(&progressObject);
+        if (code == 0)
+            progressObject.status = "Finished";
+        else
+        {
+            progressObject.status = "Failed";
+            progressObject.length = "See log for more info";
+            lengthChanged(&progressObject);
+        }
     }
     emit(wgetStatusChanged(&progressObject));
 }

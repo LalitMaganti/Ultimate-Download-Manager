@@ -10,12 +10,11 @@ DetailsTab::DetailsTab(DownloadFile *df)
     {
         connect(downloadFile->getWgetProcess(), SIGNAL(lineRead(WgetProgressObject *const)), this, SLOT(outputCommand(WgetProgressObject *const)));
     }
-    downloadFile->tabOpen = true;
 }
 
 DetailsTab::~DetailsTab()
 {
-    downloadFile->tabOpen = false;
+    downloadFile->tabRow = -1;
     deleteUi();
 }
 

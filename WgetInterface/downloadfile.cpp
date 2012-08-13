@@ -1,5 +1,4 @@
 #include "downloadfile.h"
-#include <QDir>
 
 DownloadFile::DownloadFile(QString urlarg)
 {
@@ -17,10 +16,14 @@ DownloadFile::~DownloadFile()
 void DownloadFile::download()
 {
     started = true;
-    QStringList args(url);
+    if (!(miscArgs.isEmpty()))
+        args = miscArgs;
+    args << url;
     if (resumable)
         args << "-c";
-    args << "-P" << QDir::homePath();
+    QSettings settings;
+    args << "-P" << settings.value("download/savelocation", QDir::homePath()).toString();
+    qDebug() << args;
     wp.startWget(args);
 }
 
@@ -36,9 +39,5 @@ void DownloadFile::pause()
 
 void DownloadFile::start()
 {
-    QStringList args(url);
-    if (resumable)
-        args << "-c";
-    args << "-P" << QDir::homePath();
     wp.restartWget(args);
 }

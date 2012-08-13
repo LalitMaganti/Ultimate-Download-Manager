@@ -2,19 +2,22 @@
 #define DOWNLOADFILE_H
 
 #include "wgetprocess.h"
+#include <QSettings>
+#include <QDir>
 
 class DownloadFile : public WgetProcess
 {
 public:
-    DownloadFile(){tabOpen = false;}
+    DownloadFile(){}
     DownloadFile(QString url);
     ~DownloadFile();
     //TODO: Should be removed
     WgetProcess* getWgetProcess(){return &wp;}
     // in the future
-    bool tabOpen;
+    int tabRow = -1;
     bool resumable;
     bool started;
+    QStringList miscArgs;
     void download();
     void stopProcess();
     void start();
@@ -22,6 +25,7 @@ public:
     WgetProgressObject* progressObject = 0;
 
 private:
+    QStringList args;
     WgetProcess wp;
     QString url;
 };

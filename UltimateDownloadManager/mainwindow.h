@@ -2,11 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QTableWidgetItem>
+#include <QTableWidget>
 #include <QTabBar>
+#include <QDir>
 #include "downloadfile.h"
 #include "adddialog.h"
 #include "detailstab.h"
+#include "settings.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,7 +19,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    MainWindow(QWidget *parent = 0);
     ~MainWindow();
     
 private slots:
@@ -35,8 +37,9 @@ private slots:
     void on_actionAdd_triggered();
     void on_actionQuit_triggered();
     void on_btnStartPause_clicked();
-
     void on_btnDelete_clicked();
+
+    void on_actionSettings_triggered();
 
 private:
     Ui::MainWindow *ui;
