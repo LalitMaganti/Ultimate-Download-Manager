@@ -10,6 +10,11 @@
     <height>248</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Helvetica Neue LT Pro</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Add Download</string>
   </property>

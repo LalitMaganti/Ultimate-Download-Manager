@@ -13,18 +13,21 @@ SOURCES += main.cpp\
            mainwindow.cpp \
            adddialog.cpp \
            detailstab.cpp \
-    settings.cpp
+    settings.cpp \
+    aboutdialog.cpp
 
 HEADERS  += mainwindow.h \
             mainwindow.h \
             adddialog.h \
             detailstab.h \
             downloadtabwidget.h \
-    settings.h
+    settings.h \
+    aboutdialog.h
 
 FORMS    += mainwindow.ui \
             adddialog.ui \
-    settings.ui
+    settings.ui \
+    aboutdialog.ui
 
 QMAKE_CXXFLAGS += -std=c++0x
 

@@ -136,21 +136,10 @@ void MainWindow::on_tabWidgetMain_currentChanged(int index)
     }
 }
 
-void MainWindow::on_actionStop_triggered()
-{
-    on_pushButton_2_clicked();
-}
-
 void MainWindow::stopButtonChange(bool enable)
 {
     ui->pushButton_2->setEnabled(enable);
-    ui->actionStop->setEnabled(enable);
     ui->btnStartPause->setEnabled(enable);
-}
-
-void MainWindow::on_actionAdd_triggered()
-{
-    on_pushButton_clicked();
 }
 
 void MainWindow::on_actionQuit_triggered()
@@ -195,4 +184,9 @@ void MainWindow::on_actionOpen_Download_Directory_triggered()
     QSettings settings;
     QString path = QDir::toNativeSeparators(settings.value("download/savelocation", QDir::homePath()).toString());
     QDesktopServices::openUrl(QUrl("file:///" + path));
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+
 }

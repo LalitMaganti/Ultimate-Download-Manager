@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Settings</class>
- <widget class="QDialog" name="Settings">
+ <class>AboutDialog</class>
+ <widget class="QDialog" name="AboutDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>677</width>
-    <height>114</height>
+    <width>402</width>
+    <height>160</height>
    </rect>
   </property>
   <property name="font">
@@ -16,10 +16,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Settings</string>
-  </property>
-  <property name="sizeGripEnabled">
-   <bool>false</bool>
+   <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -27,39 +24,31 @@
      <property name="font">
       <font>
        <family>Helvetica Neue LT Pro</family>
+       <pointsize>20</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save files to:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Ultimate Download&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Manager&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="lineEdit">
-     <property name="readOnly">
-      <bool>true</bool>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>Images/UDM.ico</pixmap>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="3">
+   <item row="2" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="font">
-      <font>
-       <family>Helvetica Neue LT Pro</family>
-      </font>
-     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="QToolButton" name="toolButton">
-     <property name="text">
-      <string>...</string>
+      <set>QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -70,7 +59,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Settings</receiver>
+   <receiver>AboutDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -86,7 +75,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Settings</receiver>
+   <receiver>AboutDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

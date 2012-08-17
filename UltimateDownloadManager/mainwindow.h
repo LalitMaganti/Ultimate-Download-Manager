@@ -34,15 +34,12 @@ private slots:
     void on_tableWidget_itemSelectionChanged();
     void on_tabWidgetMain_tabCloseRequested(int index);
     void on_tabWidgetMain_currentChanged(int index);
-    void on_actionStop_triggered();
-    void on_actionAdd_triggered();
     void on_actionQuit_triggered();
     void on_btnStartPause_clicked();
     void on_btnDelete_clicked();
-
     void on_actionSettings_triggered();
-
     void on_actionOpen_Download_Directory_triggered();
+    void on_actionAbout_triggered();
 
 private:
     Ui::MainWindow *ui;

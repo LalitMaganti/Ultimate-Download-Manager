@@ -16,12 +16,20 @@
     <height>663</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Helvetica Neue LT Pro</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Ultimate Download Manager</string>
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>Images/UDM.ico</normaloff>Images/UDM.ico</iconset>
+    <normaloff>Images/UDM2.png</normaloff>Images/UDM2.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>false</bool>
@@ -42,12 +50,17 @@
         <height>79</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <family>Helvetica Neue LT Pro</family>
+       </font>
+      </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Tab 1</string>
+        <string>Downloads</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
@@ -93,6 +106,11 @@
     </item>
     <item row="1" column="0">
      <widget class="DownloadTabWidget" name="tabWidgetMain">
+      <property name="font">
+       <font>
+        <family>Helvetica Neue LT Pro</family>
+       </font>
+      </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
@@ -149,8 +167,13 @@
      <x>0</x>
      <y>0</y>
      <width>1048</width>
-     <height>25</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Helvetica Neue LT Pro</family>
+    </font>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -160,30 +183,34 @@
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuPreferences">
+    <property name="font">
+     <font>
+      <family>Helvetica Neue LT Pro</family>
+     </font>
+    </property>
     <property name="title">
      <string>Preferences</string>
     </property>
     <addaction name="actionSettings"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuPreferences"/>
+   <addaction name="menuHelp"/>
   </widget>
-  <action name="actionAdd">
-   <property name="text">
-    <string>Add</string>
-   </property>
-  </action>
   <action name="actionQuit">
    <property name="text">
     <string>Quit</string>
    </property>
-  </action>
-  <action name="actionStop">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Stop</string>
+   <property name="font">
+    <font>
+     <family>Helvetica Neue LT Pro</family>
+    </font>
    </property>
   </action>
   <action name="actionSettings">
@@ -197,6 +224,16 @@
   <action name="actionOpen_Download_Directory">
    <property name="text">
     <string>Open Download Directory</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Helvetica Neue LT Pro</family>
+    </font>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>
