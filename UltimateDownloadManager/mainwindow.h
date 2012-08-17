@@ -5,11 +5,13 @@
 #include <QTableWidget>
 #include <QTabBar>
 #include <QDir>
+#include <QDesktopServices>
+
 #include "downloadfile.h"
 #include "adddialog.h"
 #include "detailstab.h"
 #include "settings.h"
-#include <QDesktopServices>
+#include "aboutdialog.h"
 
 namespace Ui {
 class MainWindow;

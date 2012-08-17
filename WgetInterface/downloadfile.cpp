@@ -2,6 +2,7 @@
 
 DownloadFile::DownloadFile(QString urlarg)
 {
+    tabRow = -1;
     url = urlarg;
     started = false;
     progressObject = &wp.progressObject;
@@ -40,10 +41,12 @@ void DownloadFile::setArgs()
 {
     started = true;
     if (!(miscArgs.isEmpty()))
-        args = miscArgs;
+        args.append(miscArgs);
     args << url;
     if (resumable)
         args << "-c";
-    QSettings settings;
-    args << "-P" << settings.value("download/savelocation", QDir::homePath()).toString();
+    if (!outdir.isEmpty())
+        args << "-P" << outdir;
+    else
+        args << "-O" << fullPath;
 }

@@ -14,14 +14,14 @@ class DetailsTab : public QWidget
 public:
     DetailsTab(DownloadFile *df);
     ~DetailsTab();
-    DownloadFile *downloadFile = 0;
+    DownloadFile *downloadFile;
     void setupUi();
 private slots:
     void outputCommand( WgetProgressObject *const cmdoutput);
 private:
     void deleteUi();
-    QTextEdit *d = 0;
-    QGridLayout *mainLayout = 0;
+    QTextEdit *d;
+    QGridLayout *mainLayout;
 };
 
 #endif // DETAILSTAB_H

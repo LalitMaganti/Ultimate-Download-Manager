@@ -8,21 +8,25 @@
 class DownloadFile : public WgetProcess
 {
 public:
-    DownloadFile(){}
+    // Methods
     DownloadFile(QString url);
     ~DownloadFile();
-    //TODO: Should be removed
-    WgetProcess* getWgetProcess(){return &wp;}
+    // TODO: Should be removed
+    const WgetProcess* getWgetProcess(){return &wp;}
     // in the future
-    int tabRow = -1;
-    bool resumable;
-    bool started;
-    QStringList miscArgs;
     void download();
     void stopProcess();
     void start();
     void pause();
-    WgetProgressObject* progressObject = 0;
+
+    // Variables
+    int tabRow;
+    bool resumable;
+    bool started;
+    QString outdir;
+    QString fullPath;
+    QString miscArgs;
+    WgetProgressObject *progressObject;
 
 private:
     QStringList args;

@@ -7,8 +7,8 @@ class DownloadTabWidget : public QTabWidget
 {
     Q_OBJECT
 public:
-    DownloadTabWidget(QWidget *parent = 0){tabBarPublic = tabBar(); parent++;}
-    QTabBar *tabBarPublic = 0;
+    DownloadTabWidget(QWidget *parent = 0){tabBarPublic = tabBar();}
+    QTabBar *tabBarPublic;
 };
 
 #endif // DOWNLOADTABWIDGET_H
