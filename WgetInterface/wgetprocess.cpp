@@ -8,6 +8,9 @@ WgetProcess::WgetProcess()
     progressObject.progress = 0;
     progressObject.status = "Pending";
     progressObject.length = "Pending";
+    emit(lengthChanged(&progressObject));
+    emit(progressChanged(&progressObject));
+    emit(wgetStatusChanged(&progressObject));
 }
 
 void WgetProcess::startWget(QStringList args)

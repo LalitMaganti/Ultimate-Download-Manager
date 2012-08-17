@@ -28,6 +28,7 @@ private:
     QStringList args;
     WgetProcess wp;
     QString url;
+    void setArgs();
 };
 
 #endif // DOWNLOADFILE_H

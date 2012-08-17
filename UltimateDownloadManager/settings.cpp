@@ -20,6 +20,19 @@ Settings::~Settings()
 
 void Settings::on_toolButton_clicked()
 {
-    QString tempSave = QFileDialog::getExistingDirectory();
-    ui->lineEdit->setText(tempSave);
+    QString tempSave = QFileDialog::getExistingDirectory(this, "Open Directory",
+                                                         saveLocation,
+                                                         QFileDialog::ShowDirsOnly);
+    if (!(tempSave == ""))
+    {
+        ui->lineEdit->setText(tempSave);
+        saveLocation = ui->lineEdit->text();
+    }
+}
+
+void Settings::on_buttonBox_accepted()
+{
+    QSettings settings;
+    settings.setValue("download/savelocation", saveLocation);
+    settings.sync();
 }

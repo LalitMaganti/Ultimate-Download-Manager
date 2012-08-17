@@ -12,22 +12,16 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     for(int tabIndex = 1; tabIndex < ui->tabWidgetMain->count(); tabIndex++)
-    {
         delete ui->tabWidgetMain->widget(tabIndex);
-    }
     if (downloadsCount != 0)
     {
         for(DownloadFile *file: listOfDownloads)
-        {
             delete file;
-        }
     }
     for(int column = 0; column < ui->tableWidget->columnCount(); column++)
     {
         for(int row = 0; row < ui->tableWidget->rowCount(); row++)
-        {
             delete ui->tableWidget->item(row, column);
-        }
     }
     delete ui;
 }
@@ -53,6 +47,7 @@ void MainWindow::on_pushButton_clicked()
         {
             setStatus(df->progressObject);
             setProgress(df->progressObject);
+            setLength(df->progressObject);
             ui->btnStartPause->setText("Start");
         }
     }
@@ -185,6 +180,7 @@ void MainWindow::on_btnDelete_clicked()
     delete listOfDownloads[row];
     listOfDownloads.removeAt(row);
     ui->tableWidget->removeRow(row - 1);
+    ui->tableWidget->setRowCount(0);
     ui->btnDelete->setEnabled(false);
 }
 
@@ -192,4 +188,11 @@ void MainWindow::on_actionSettings_triggered()
 {
     Settings settingsdialog;
     settingsdialog.exec();
+}
+
+void MainWindow::on_actionOpen_Download_Directory_triggered()
+{
+    QSettings settings;
+    QString path = QDir::toNativeSeparators(settings.value("download/savelocation", QDir::homePath()).toString());
+    QDesktopServices::openUrl(QUrl("file:///" + path));
 }

@@ -9,6 +9,7 @@
 #include "adddialog.h"
 #include "detailstab.h"
 #include "settings.h"
+#include <QDesktopServices>
 
 namespace Ui {
 class MainWindow;
@@ -40,6 +41,8 @@ private slots:
     void on_btnDelete_clicked();
 
     void on_actionSettings_triggered();
+
+    void on_actionOpen_Download_Directory_triggered();
 
 private:
     Ui::MainWindow *ui;

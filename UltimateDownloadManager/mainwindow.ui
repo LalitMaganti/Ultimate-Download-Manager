@@ -152,17 +152,11 @@
      <height>25</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuDownload">
-    <property name="title">
-     <string>Download</string>
-    </property>
-    <addaction name="actionAdd"/>
-    <addaction name="actionStop"/>
-   </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionOpen_Download_Directory"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuPreferences">
@@ -172,7 +166,6 @@
     <addaction name="actionSettings"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuDownload"/>
    <addaction name="menuPreferences"/>
   </widget>
   <action name="actionAdd">
@@ -199,6 +192,11 @@
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionOpen_Download_Directory">
+   <property name="text">
+    <string>Open Download Directory</string>
    </property>
   </action>
  </widget>

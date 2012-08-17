@@ -15,15 +15,7 @@ DownloadFile::~DownloadFile()
 
 void DownloadFile::download()
 {
-    started = true;
-    if (!(miscArgs.isEmpty()))
-        args = miscArgs;
-    args << url;
-    if (resumable)
-        args << "-c";
-    QSettings settings;
-    args << "-P" << settings.value("download/savelocation", QDir::homePath()).toString();
-    qDebug() << args;
+    setArgs();
     wp.startWget(args);
 }
 
@@ -39,5 +31,19 @@ void DownloadFile::pause()
 
 void DownloadFile::start()
 {
+    if (started == false)
+        setArgs();
     wp.restartWget(args);
+}
+
+void DownloadFile::setArgs()
+{
+    started = true;
+    if (!(miscArgs.isEmpty()))
+        args = miscArgs;
+    args << url;
+    if (resumable)
+        args << "-c";
+    QSettings settings;
+    args << "-P" << settings.value("download/savelocation", QDir::homePath()).toString();
 }
