@@ -35,7 +35,6 @@ private slots:
     void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
     void on_tableWidget_itemSelectionChanged();
     void on_tabWidgetMain_tabCloseRequested(int index);
-    void on_tabWidgetMain_currentChanged(int index);
     void on_actionQuit_triggered();
     void on_btnStartPause_clicked();
     void on_btnDelete_clicked();

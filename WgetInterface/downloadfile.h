@@ -20,7 +20,7 @@ public:
     void pause();
 
     // Variables
-    int tabRow;
+    int tabIndex;
     bool resumable;
     bool started;
     QString outdir;

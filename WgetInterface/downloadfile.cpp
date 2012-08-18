@@ -2,7 +2,7 @@
 
 DownloadFile::DownloadFile(QString urlarg)
 {
-    tabRow = -1;
+    tabIndex = -1;
     url = urlarg;
     started = false;
     progressObject = &wp.progressObject;

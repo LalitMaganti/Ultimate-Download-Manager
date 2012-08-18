@@ -15,7 +15,7 @@ DetailsTab::DetailsTab(DownloadFile *df)
 DetailsTab::~DetailsTab()
 {
     deleteUi();
-    downloadFile->tabRow = -1;
+    downloadFile->tabIndex = -1;
 }
 
 inline void DetailsTab::deleteUi()
