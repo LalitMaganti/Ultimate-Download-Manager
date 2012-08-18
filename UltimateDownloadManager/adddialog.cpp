@@ -70,10 +70,9 @@ void AddDialog::on_btnSave_clicked()
 void AddDialog::on_chkName_clicked()
 {
     bool enable = !(ui->chkName->isChecked());
-
     ui->txtName->setEnabled(enable);
     ui->lblName->setEnabled(enable);
-    ui->btnOK->setEnabled(ui->chkName->isChecked());
+    ui->btnOK->setEnabled(!enable);
 }
 
 void AddDialog::on_txtName_textChanged(const QString &arg1)

@@ -4,18 +4,18 @@
 
 DetailsTab::DetailsTab(DownloadFile *df)
 {
-    setupUi();
     downloadFile = df;
     if (!(downloadFile->progressObject->status == "Finished"))
     {
         connect(downloadFile->getWgetProcess(), SIGNAL(lineRead(WgetProgressObject *const)), this, SLOT(outputCommand(WgetProgressObject *const)));
     }
+    setupUi();
 }
 
 DetailsTab::~DetailsTab()
 {
-    downloadFile->tabRow = -1;
     deleteUi();
+    downloadFile->tabRow = -1;
 }
 
 inline void DetailsTab::deleteUi()
