@@ -9,6 +9,8 @@
 # Compiled Dynamic libraries
 *.so*
 *.dll
+*.exe
+*.lib
 UltimateDownloadManager/UltimateDownloadManager
 
 # Compiled Static libraries

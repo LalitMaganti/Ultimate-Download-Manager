@@ -29,7 +29,7 @@ FORMS    += mainwindow.ui \
     settings.ui \
     aboutdialog.ui
 
-QMAKE_CXXFLAGS += -std=c++0x
+gcc:QMAKE_CXXFLAGS += -std=c++0x
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/release/ -lWgetInterface
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/debug/ -lWgetInterface
@@ -39,4 +39,7 @@ INCLUDEPATH += $$PWD/../WgetInterface
 DEPENDPATH += $$PWD/../WgetInterface
 
 OTHER_FILES += \
-    Images/UDM.ico
+    Images/UDM.ico \
+    Images/UDM2.ico \
+    Images/UDM.png \
+    Images/UDM2.png

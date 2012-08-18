@@ -167,7 +167,7 @@
      <x>0</x>
      <y>0</y>
      <width>1048</width>
-     <height>24</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">
@@ -194,6 +194,11 @@
     <addaction name="actionSettings"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
+    <property name="font">
+     <font>
+      <family>Segoe UI Light</family>
+     </font>
+    </property>
     <property name="title">
      <string>Help</string>
     </property>
@@ -234,6 +239,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+    </font>
    </property>
   </action>
  </widget>

@@ -6,6 +6,7 @@
 
 TARGET = WgetInterface
 TEMPLATE = lib
+CONFIG += staticlib
 
 DEFINES += WGETINTERFACE_LIBRARY
 
@@ -16,7 +17,7 @@ HEADERS += downloadfile.h \
     wgetprocess.h \
     wgetprogressobject.h
 
-QMAKE_CXXFLAGS += -std=c++0x
+gcc:QMAKE_CXXFLAGS += -std=c++0x
 
 unix:!symbian {
     target.path = /usr/lib
