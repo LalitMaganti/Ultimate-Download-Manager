@@ -17,7 +17,7 @@ HEADERS += downloadfile.h \
     wgetprocess.h \
     wgetprogressobject.h
 
-gcc:QMAKE_CXXFLAGS += -std=c++0x
+!windows:QMAKE_CXXFLAGS += -std=c++0x
 
 unix:!symbian {
     target.path = /usr/lib

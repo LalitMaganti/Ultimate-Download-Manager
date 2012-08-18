@@ -9,27 +9,28 @@ QT       += core gui widgets
 TARGET = UltimateDownloadManager
 TEMPLATE = app
 
-SOURCES += main.cpp\
+SOURCES += main.cpp \
            mainwindow.cpp \
            adddialog.cpp \
            detailstab.cpp \
-    settings.cpp \
-    aboutdialog.cpp
+           settings.cpp \
+           aboutdialog.cpp
 
 HEADERS  += mainwindow.h \
             mainwindow.h \
             adddialog.h \
             detailstab.h \
             downloadtabwidget.h \
-    settings.h \
-    aboutdialog.h
+            settings.h \
+            aboutdialog.h \
+            globaldefines.h
 
 FORMS    += mainwindow.ui \
             adddialog.ui \
-    settings.ui \
-    aboutdialog.ui
+            settings.ui \
+            aboutdialog.ui
 
-gcc:QMAKE_CXXFLAGS += -std=c++0x
+!windows:QMAKE_CXXFLAGS += -std=c++0x
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/release/ -lWgetInterface
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/debug/ -lWgetInterface

@@ -1,11 +1,13 @@
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
+#include "globaldefines.h"
 
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
+    ui->label_3->setText(QString("Version %1.%2.%3").arg(majorVersion).arg(minorVersion).arg(buildVersion));
 }
 
 AboutDialog::~AboutDialog()

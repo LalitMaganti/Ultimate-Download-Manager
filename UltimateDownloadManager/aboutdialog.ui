@@ -10,6 +10,11 @@
     <height>179</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Helvetica Neue LT Pro</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -22,7 +27,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Version 1.0.0</string>
+      <string/>
      </property>
     </widget>
    </item>
@@ -32,6 +37,9 @@
       <font>
        <family>Helvetica Neue LT Pro</family>
        <pointsize>20</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">

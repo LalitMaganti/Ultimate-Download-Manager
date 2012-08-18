@@ -20,7 +20,7 @@ private slots:
     void outputCommand( WgetProgressObject *const cmdoutput);
 private:
     void deleteUi();
-    QTextEdit *d;
+    QTextEdit *txtOutput;
     QGridLayout *mainLayout;
 };
 

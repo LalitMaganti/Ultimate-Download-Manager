@@ -20,7 +20,7 @@ MainWindow::~MainWindow()
 #else
         for each(DownloadFile *file in listOfDownloads)
 #endif
-            delete file;
+                delete file;
     }
     for(int column = 0; column < ui->tableWidget->columnCount(); column++)
     {
@@ -67,12 +67,12 @@ void MainWindow::setProgress(WgetProgressObject *const progressObject)
 
 void MainWindow::setLength(WgetProgressObject *const progressObject)
 {
-     setItem(progressObject->length, progressObject->row, 1);
+    setItem(progressObject->length, progressObject->row, 1);
 }
 
 void MainWindow::setStatus(WgetProgressObject *const progressObject)
 {
-     setItem(progressObject->status, progressObject->row, 2);
+    setItem(progressObject->status, progressObject->row, 2);
 }
 
 void MainWindow::setItem(const QString stringToWrite, int row, int index)

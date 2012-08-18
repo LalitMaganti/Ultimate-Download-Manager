@@ -4,8 +4,8 @@
 
 DetailsTab::DetailsTab(DownloadFile *df)
 {
-    downloadFile = df;
     setupUi();
+    downloadFile = df;
     if (!(downloadFile->progressObject->status == "Finished"))
     {
         connect(downloadFile->getWgetProcess(), SIGNAL(lineRead(WgetProgressObject *const)), this, SLOT(outputCommand(WgetProgressObject *const)));
@@ -20,21 +20,21 @@ DetailsTab::~DetailsTab()
 
 inline void DetailsTab::deleteUi()
 {
-    delete d;
+    delete txtOutput;
     delete mainLayout;
 }
 
 inline void DetailsTab::setupUi()
 {
     mainLayout = new QGridLayout;
-    d = new QTextEdit;
-    d->setReadOnly(true);
-    d->setText(downloadFile->progressObject->buffer);
-    mainLayout->addWidget(d, 0, 0, 1, 5);
+    txtOutput = new QTextEdit;
+    txtOutput->setReadOnly(true);
+    txtOutput->setText(downloadFile->progressObject->buffer);
+    mainLayout->addWidget(txtOutput, 0, 0, 1, 5);
     setLayout(mainLayout);
 }
 
 void DetailsTab::outputCommand(WgetProgressObject *const cmdoutput)
 {
-    d->append(cmdoutput->rawLine);
+    txtOutput->append(cmdoutput->rawLine);
 }
