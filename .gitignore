@@ -2,9 +2,13 @@
 *.slo
 *.lo
 *.o
+*.obj
+*.pcb
+*.pdb
 
 # Compiled Dynamic libraries
 *.so*
+*.dll
 UltimateDownloadManager/UltimateDownloadManager
 
 # Compiled Static libraries
@@ -15,9 +19,13 @@ UltimateDownloadManager/UltimateDownloadManager
 # Environment and autosave files
 *.user
 *.autosave
+*.ilk
+*.manifest
 
 # Makefiles
 Makefile
+Makefile.Debug
+Makefile.Release
 
 # Moc files
 moc_*.cpp

@@ -15,7 +15,11 @@ MainWindow::~MainWindow()
         delete ui->tabWidgetMain->widget(tabIndex);
     if (downloadsCount != 0)
     {
+#ifndef QT_ARCH_WINDOWS
         for(DownloadFile *file: listOfDownloads)
+#else
+        for each(DownloadFile *file in listOfDownloads)
+#endif
             delete file;
     }
     for(int column = 0; column < ui->tableWidget->columnCount(); column++)
