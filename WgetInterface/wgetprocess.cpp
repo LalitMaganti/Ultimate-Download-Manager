@@ -137,7 +137,16 @@ void WgetProcess::processFinished(int code)
     if (!(progressObject.status == "Paused" || progressObject.status == "Stopped"))
     {
         if (code == 0)
+        {
             progressObject.status = "Finished";
+            if (progressObject.length == "Processing")
+            {
+                progressObject.length = "See log for more info";
+                lengthChanged(&progressObject);
+            }
+            progressObject.progress = 100;
+            progressChanged(&progressObject);
+        }
         else
         {
             progressObject.status = "Failed";

@@ -47,6 +47,7 @@ private:
     QList<DownloadFile*> listOfDownloads;
     int downloadsCount;
     void stopButtonChange(bool enable);
+    int getTableWidgetRow();
 };
 
 #endif // MAINWINDOW_H

@@ -55,6 +55,7 @@ void MainWindow::on_pushButton_clicked()
             ui->btnStartPause->setText("Start");
         }
     }
+    ui->tabWidgetMain->setCurrentIndex(0);
 }
 
 void MainWindow::setProgress(WgetProgressObject *const progressObject)
@@ -82,19 +83,19 @@ void MainWindow::setItem(const QString stringToWrite, int row, int index)
     item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
     ui->tableWidget->setItem(row, index, item);
     ui->tableWidget->resizeColumnsToContents();
-    if (ui->tableWidget->selectedItems().count() <= 0)
+    /*if (ui->tableWidget->selectedItems().count() <= 0)
     {
         if ((stringToWrite == "Finished") || (stringToWrite == "Failed"))
         {
             stopButtonChange(false);
             ui->btnDelete->setEnabled(false);
         }
-    }
+    }*/
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    const int row = ui->tableWidget->currentRow();
+    const int row = getTableWidgetRow();
     listOfDownloads[row]->stopProcess();
     ui->btnStartPause->setText("Pause");
     stopButtonChange(false);
@@ -110,10 +111,8 @@ void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item)
         QString lbl = "Download " + QString::number((rowNumber + 1));
         ui->tabWidgetMain->addTab(newTab, lbl);
         df->tabIndex = ui->tabWidgetMain->count() - 1;
-        ui->tabWidgetMain->setCurrentIndex(df->tabIndex);
     }
-    else
-        ui->tabWidgetMain->setCurrentIndex(df->tabIndex);
+    ui->tabWidgetMain->setCurrentIndex(df->tabIndex);
 }
 
 void MainWindow::on_tableWidget_itemSelectionChanged()
@@ -146,7 +145,7 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_btnStartPause_clicked()
 {
-    const int row = ui->tableWidget->selectedItems()[0]->row();
+    const int row = getTableWidgetRow();
     DownloadFile *selectedDownload = listOfDownloads[row];
     if (selectedDownload->progressObject->status == "Running")
     {
@@ -162,32 +161,32 @@ void MainWindow::on_btnStartPause_clicked()
 
 void MainWindow::on_btnDelete_clicked()
 {
-    int selectedTab = ui->tabWidgetMain->currentIndex();
-    int row;
-    if (selectedTab == 0)
-        row = ui->tableWidget->currentRow();
-    else
-        row = ((DetailsTab*)ui->tabWidgetMain->currentWidget())->downloadFile->progressObject->row;
+    const int row = getTableWidgetRow();
     DownloadFile *df = listOfDownloads[row];
-    int tabLocation = df->tabIndex;
-    if (!(df->tabIndex == -1))
-        ui->tabWidgetMain->removeTab(df->tabIndex);
+    const int tabLocation = df->tabIndex;
+    if (!(tabLocation == -1))
+        ui->tabWidgetMain->removeTab(tabLocation);
     ui->tableWidget->removeRow(row);
     delete df;
     listOfDownloads.removeAt(row);
     for(int i = row; i < listOfDownloads.count(); i++)
     {
         df = listOfDownloads[i];
+        if (!(df->tabIndex == -1))
+            ui->tabWidgetMain->tabBarPublic->setTabText(df->tabIndex, "Download " + QString::number(df->progressObject->row));
         --df->progressObject->row;
-        if (!(df->tabIndex == -1))
-            ui->tabWidgetMain->tabBarPublic->setTabText(df->tabIndex, "Download " + QString::number(df->progressObject->row + 1));
     }
-    for(int i = tabLocation; i < ui->tabWidgetMain->count(); i++)
+    if (!tabLocation == -1)
     {
-        df = listOfDownloads[i];
-        if (!(df->tabIndex == -1))
-            --df->tabIndex;
+        for(int i = tabLocation; i < ui->tabWidgetMain->count(); i++)
+        {
+            df = listOfDownloads[i];
+            if (!(df->tabIndex == -1))
+                --df->tabIndex;
+        }
     }
+    if (ui->tableWidget->rowCount() == 0)
+        ui->btnDelete->setEnabled(false);
 }
 
 void MainWindow::on_actionSettings_triggered()
@@ -207,4 +206,15 @@ void MainWindow::on_actionAbout_triggered()
 {
     AboutDialog about;
     about.exec();
+}
+
+int MainWindow::getTableWidgetRow()
+{
+    int selectedTab = ui->tabWidgetMain->currentIndex();
+    int row;
+    if (selectedTab == 0)
+        row = ui->tableWidget->currentRow();
+    else
+        row = ((DetailsTab*)ui->tabWidgetMain->currentWidget())->downloadFile->progressObject->row;
+    return row;
 }
