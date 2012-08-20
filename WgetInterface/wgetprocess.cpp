@@ -118,7 +118,7 @@ inline void WgetProcess::processTime(QString *const line)
             *final = time[0] + " minute(s) " + time[1] + " second(s)";
         }
         else
-            *final = substring2 + " second(s)";
+            *final = substring2.remove('s') + " second(s)";
     emit(timeChanged(&progressObject));
 }
 

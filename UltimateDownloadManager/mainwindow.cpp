@@ -95,7 +95,8 @@ inline void MainWindow::processStatus(WgetProgressObject *wpo)
             setItem("See log for more info", row, 1);
             setItem("Download finished", row, 5);
         }
-        if(wpo->length == "0s second(s)")
+        if(wpo->length == "0 second(s)")
+            setItem("Download finished", row, 5);
         setItem("100%",row, 3);
         MiscFunctions::stopButtonChange(false, ui);
     }
