@@ -24,6 +24,7 @@ void WgetProcess::startWget(QStringList args)
     emit(wgetStatusChanged(&progressObject));
     emit(speedChanged(&progressObject));
     emit(timeChanged(&progressObject));
+    emit(progressChanged(&progressObject));
     start("wget", args);
 }
 

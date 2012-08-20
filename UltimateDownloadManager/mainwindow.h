@@ -43,9 +43,9 @@ private slots:
     void setLength(WgetProgressObject *const cmdoutput);
     void setSpeed(WgetProgressObject *const cmdoutput);
     void setTime(WgetProgressObject *const cmdoutput);
-    void setItem(const QString status, int row, int index);
 
 private:
+    void setItem(const QString status, int row, int index);
     Ui::MainWindow *ui;
     QList<DownloadFile*> listOfDownloads;
     int downloadsCount;
