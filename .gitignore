@@ -12,6 +12,7 @@
 *.exe
 *.lib
 UltimateDownloadManager/UltimateDownloadManager
+UnitTests/tst_unitteststest
 
 # Compiled Static libraries
 *.lai
@@ -31,6 +32,7 @@ Makefile.Release
 
 # Moc files
 moc_*.cpp
+*.moc
 
 # UI temp headers
 ui_*.h
