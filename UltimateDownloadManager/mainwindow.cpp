@@ -82,14 +82,15 @@ void MainWindow::setStatus(WgetProgressObject *const progressObject)
             setLength(wpo);
         }
         wpo->progress = 100;
+        setProgress(wpo);
     }
-    else
+    else if(wpo->status == "Failed")
     {
         wpo->progress = -1;
         wpo->length = "See log for more info";
         setLength(wpo);
+        setProgress(wpo);
     }
-    setProgress(wpo);
     setItem(progressObject->status, progressObject->row, 2);
 }
 
@@ -102,16 +103,13 @@ void MainWindow::setItem(const QString stringToWrite, int row, int index)
         ui->tableWidget->setItem(row, index, item);
     }
     else
-    {
         ui->tableWidget->item(row, index)->setText(stringToWrite);
-    }
     ui->tableWidget->resizeColumnsToContents();
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    const int row = getTableWidgetRow();
-    listOfDownloads[row]->stopProcess();
+    listOfDownloads[getTableWidgetRow(]->stopProcess();
     ui->btnStartPause->setText("Pause");
     stopButtonChange(false);
 }
@@ -134,8 +132,7 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
 {
     if (ui->tableWidget->selectedItems().count() > 0)
     {
-        const int row = ui->tableWidget->currentRow();
-        DownloadFile *df = listOfDownloads[row];
+        DownloadFile *df = listOfDownloads[getTableWidgetRow()];
         bool enable = ((df->progressObject->status == "Finished") || (df->progressObject->status == "Stopped") || (df->progressObject->status == "Failed"));
         stopButtonChange(!enable);
     }
@@ -226,10 +223,8 @@ void MainWindow::on_actionAbout_triggered()
 int MainWindow::getTableWidgetRow()
 {
     int selectedTab = ui->tabWidgetMain->currentIndex();
-    int row;
     if (selectedTab == 0)
-        row = ui->tableWidget->currentRow();
+        return  ui->tableWidget->currentRow();
     else
-        row = ((DetailsTab*)ui->tabWidgetMain->currentWidget())->downloadFile->progressObject->row;
-    return row;
+        return  ((DetailsTab*)ui->tabWidgetMain->currentWidget())->downloadFile->progressObject->row;
 }
