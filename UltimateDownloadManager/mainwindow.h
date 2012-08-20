@@ -29,12 +29,6 @@ public:
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
-    void setProgress(WgetProgressObject *const cmdoutput);
-    void setStatus(WgetProgressObject *const cmdoutput);
-    void setLength(WgetProgressObject *const cmdoutput);
-    void setSpeed(WgetProgressObject *const cmdoutput);
-    void setTime(WgetProgressObject *const cmdoutput);
-    void setItem(const QString status, int row, int index);
     void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
     void on_tableWidget_itemSelectionChanged();
     void on_tabWidgetMain_tabCloseRequested(int index);
@@ -46,6 +40,12 @@ private slots:
     void on_actionAbout_triggered();
 
 private:
+    void setProgress(WgetProgressObject *const cmdoutput);
+    void setStatus(WgetProgressObject *const cmdoutput);
+    void setLength(WgetProgressObject *const cmdoutput);
+    void setSpeed(WgetProgressObject *const cmdoutput);
+    void setTime(WgetProgressObject *const cmdoutput);
+    void setItem(const QString status, int row, int index);
     Ui::MainWindow *ui;
     QList<DownloadFile*> listOfDownloads;
     int downloadsCount;
