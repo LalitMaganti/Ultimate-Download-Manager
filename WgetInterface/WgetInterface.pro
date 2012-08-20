@@ -24,4 +24,7 @@ unix:!symbian {
 }
 
 windows:CONFIG += staticlib
-unix:CONFIG(release, debug|release):CONFIG += staticlib
+
+unix:release {
+    CONFIG += staticlib
+}
