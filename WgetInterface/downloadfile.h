@@ -33,6 +33,7 @@ private:
     WgetProcess wp;
     QString url;
     void setArgs();
+
 };
 
 #endif // DOWNLOADFILE_H

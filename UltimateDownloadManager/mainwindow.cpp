@@ -73,24 +73,39 @@ void MainWindow::setLength(WgetProgressObject *const progressObject)
 
 void MainWindow::setStatus(WgetProgressObject *const progressObject)
 {
+    WgetProgressObject *wpo = progressObject;
+    if (wpo->status == "Finished")
+    {
+        if (wpo->length == "Processing")
+        {
+            wpo->length = "See log for more info";
+            setLength(wpo);
+        }
+        wpo->progress = 100;
+    }
+    else
+    {
+        wpo->progress = -1;
+        wpo->length = "See log for more info";
+        setLength(wpo);
+    }
+    setProgress(wpo);
     setItem(progressObject->status, progressObject->row, 2);
 }
 
 void MainWindow::setItem(const QString stringToWrite, int row, int index)
 {
-    delete ui->tableWidget->item(row, index);
-    QTableWidgetItem *item = new QTableWidgetItem(stringToWrite);
-    item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-    ui->tableWidget->setItem(row, index, item);
-    ui->tableWidget->resizeColumnsToContents();
-    /*if (ui->tableWidget->selectedItems().count() <= 0)
+    if (ui->tableWidget->item(row, index) == 0x0)
     {
-        if ((stringToWrite == "Finished") || (stringToWrite == "Failed"))
-        {
-            stopButtonChange(false);
-            ui->btnDelete->setEnabled(false);
-        }
-    }*/
+        QTableWidgetItem *item = new QTableWidgetItem(stringToWrite);
+        item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+        ui->tableWidget->setItem(row, index, item);
+    }
+    else
+    {
+        ui->tableWidget->item(row, index)->setText(stringToWrite);
+    }
+    ui->tableWidget->resizeColumnsToContents();
 }
 
 void MainWindow::on_pushButton_2_clicked()
