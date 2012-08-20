@@ -9,8 +9,8 @@ class WgetProgressObject
 public:
     WgetProgressObject(){}
     QString length;
-    int progress;
-    QDateTime time;
+    QString progress;
+    QString time;
     QString rawLine;
     QString buffer;
     QString status;

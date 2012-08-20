@@ -5,10 +5,11 @@ WgetProcess::WgetProcess()
     setReadChannel(QProcess::StandardError);
     connect(this, SIGNAL(readyReadStandardError()), this, SLOT(readWgetLine()));
     connect(this, SIGNAL(finished(int)), this, SLOT(processFinished(int)));
-    progressObject.progress = 0;
+    progressObject.progress = "0%";
     progressObject.status = "Pending";
     progressObject.length = "Pending";
     progressObject.speed = "Pending";
+    progressObject.time = "Pending";
     progressObject.buffer = "Download not started";
 }
 
@@ -17,11 +18,12 @@ void WgetProcess::startWget(QStringList args)
     progressObject.status = "Running";
     progressObject.length = "Processing";
     progressObject.speed = "Processing";
+    progressObject.time = "Processing";
     progressObject.buffer = "";
-    emit(progressChanged(&progressObject));
     emit(lengthChanged(&progressObject));
     emit(wgetStatusChanged(&progressObject));
     emit(speedChanged(&progressObject));
+    emit(timeChanged(&progressObject));
     start("wget", args);
 }
 
@@ -42,7 +44,7 @@ void WgetProcess::processLength(QString *const line)
     if (line->contains("unspecified"))
     {
         progressObject.length = "Unknown - HTML file?";
-        progressObject.progress = -1;
+        progressObject.progress = "Unknown";
         progressObject.speed = "Unknown";
         emit(progressChanged(&progressObject));
         emit(speedChanged(&progressObject));
@@ -59,10 +61,10 @@ void WgetProcess::processLength(QString *const line)
 void WgetProcess::processProgress(QString *const line)
 {
     QString substring1 = line->left(line->lastIndexOf('%'));
-    substring1 = substring1.right(substring1.length() - substring1.lastIndexOf('.')).remove('.').trimmed();
-    if (!(progressObject.progress == substring1.toInt()))
+    substring1 = substring1.right(substring1.length() - substring1.lastIndexOf('.')).remove('.').trimmed() + "%";
+    if (!(progressObject.progress == substring1))
     {
-        progressObject.progress = substring1.toInt();
+        progressObject.progress = substring1;
         emit(progressChanged(&progressObject));
     }
 }
@@ -87,23 +89,42 @@ void WgetProcess::processTime(QString *const line)
     substring2 = substring2.remove(0, 5).trimmed();
     QDateTime time;
     if (substring2.contains('d'))
-        progressObject.time = time.fromString(processTime('d', 'h', &substring2), "dh");
+        time = time.fromString(processTime('d', 'h', &substring2), "dh");
     else if (substring2.contains('h'))
-        progressObject.time = time.fromString(processTime('h', 'm', &substring2), "dhm");
+        time = time.fromString(processTime('h', 'm', &substring2), "dhm");
     else if (substring2.contains('m'))
-        progressObject.time = time.fromString(processTime('m', 's', &substring2), "ms");
-}
-
-
-void WgetProcess::processSpeed(QString *const line)
-{
-    QString substring1 = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
-    substring1 = substring1.left(substring1.indexOf(" "));
-    if (!(progressObject.speed == substring1))
+        time = time.fromString(processTime('m', 's', &substring2), "ms");
+    int days = time.date().day() - 1;
+    int hours = time.time().hour();
+    int minutes = time.time().minute();
+    int seconds = time.time().second();
+    QString *final = &progressObject.time;
+    if(!(days == 0))
     {
-        progressObject.speed = substring1;
-        emit(speedChanged(&progressObject));
+        if (days == 1)
+            *final += QString::number(days) + " day ";
+        else
+            *final += QString::number(days) + " days ";
     }
+    if(!(hours == 0))
+    {
+        if (hours == 1)
+            *final += QString::number(hours) + " hour ";
+        else
+            *final += QString::number(hours) + " hours ";
+    }
+    if(!(minutes == 0))
+    {
+        if (minutes == 1)
+            *final += QString::number(minutes) + " minute ";
+        else
+            *final += QString::number(minutes) + " minutes ";
+    }
+    if (seconds == 1)
+        *final += QString::number(seconds) + " second";
+    else
+        *final += QString::number(seconds) + " seconds";
+    emit(timeChanged(&progressObject));
 }
 
 inline QString WgetProcess::processTime(const QChar big, const QChar small, QString *const substring2)
@@ -116,6 +137,17 @@ inline QString WgetProcess::processTime(const QChar big, const QChar small, QStr
         bigstring += "1";
     }
     return (bigstring + smallstring);
+}
+
+void WgetProcess::processSpeed(QString *const line)
+{
+    QString substring1 = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
+    substring1 = substring1.left(substring1.indexOf(" "));
+    if (!(progressObject.speed == substring1))
+    {
+        progressObject.speed = substring1;
+        emit(speedChanged(&progressObject));
+    }
 }
 
 void WgetProcess::terminateWget()

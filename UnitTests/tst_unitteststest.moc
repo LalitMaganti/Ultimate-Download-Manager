@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'tst_unitteststest.cpp'
 **
-** Created: Mon Aug 20 12:44:40 2012
+** Created: Mon Aug 20 14:55:44 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -36,7 +36,7 @@ static const uint qt_meta_data_UnitTestsTest[] = {
 };
 
 static const char qt_meta_stringdata_UnitTestsTest[] = {
-    "UnitTestsTest\0\0testCase1()\0"
+    "UnitTestsTest\0\0testTime()\0"
 };
 
 void UnitTestsTest::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -45,7 +45,7 @@ void UnitTestsTest::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         Q_ASSERT(staticMetaObject.cast(_o));
         UnitTestsTest *_t = static_cast<UnitTestsTest *>(_o);
         switch (_id) {
-        case 0: _t->testCase1(); break;
+        case 0: _t->testTime(); break;
         default: ;
         }
     }

@@ -23,7 +23,8 @@ HEADERS  += mainwindow.h \
             downloadtabwidget.h \
             settings.h \
             aboutdialog.h \
-            globaldefines.h
+            globaldefines.h \
+    miscfunctions.h
 
 FORMS    += mainwindow.ui \
             adddialog.ui \

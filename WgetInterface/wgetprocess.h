@@ -16,9 +16,17 @@ public:
     void terminateWget();
     void pauseWget();
     void restartWget(const QStringList args);
-    
+
+    void processRawData(QString *const line);
+    void processLength(QString *const line);
+    void processProgress(QString *const line);
+    void processTime(QString *const line);
+    QString processTime(const QChar big, const QChar small, QString *const substring2);
+    void processSpeed(QString *const line);
+
 signals:
     void speedChanged(WgetProgressObject *const wpo);
+    void timeChanged(WgetProgressObject *const wpo);
     void progressChanged(WgetProgressObject *const wpo);
     void lineRead(WgetProgressObject *const wpo);
     void lengthChanged(WgetProgressObject *const wpo);
@@ -27,14 +35,5 @@ signals:
 private slots:
     void readWgetLine();
     void processFinished(int code);
-
-private:
-    void processRawData(QString *const line);
-    void processLength(QString *const line);
-    void processProgress(QString *const line);
-    void processTime(QString *const line);
-    QString processTime(const QChar big, const QChar small, QString *const substring2);
-    void processSpeed(QString *const line);
 };
-
 #endif // WGETPROCESS_H

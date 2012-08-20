@@ -1,5 +1,6 @@
 #include <QString>
 #include <QtTest>
+#include "downloadfile.h"
 
 class UnitTestsTest : public QObject
 {
@@ -9,16 +10,21 @@ public:
     UnitTestsTest();
     
 private Q_SLOTS:
-    void testCase1();
+    void testTime();
 };
 
 UnitTestsTest::UnitTestsTest()
 {
 }
 
-void UnitTestsTest::testCase1()
+void UnitTestsTest::testTime()
 {
-    QVERIFY2(true, "Failure");
+    QString k =   "9400K ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,. .......... ..........  9%  493K 7m46s";
+    WgetProcess wp;
+    wp.processProgress(&k);
+    const QString l = wp.progressObject.time;
+    const QString g = "7 minutes 46 seconds";
+    QCOMPARE(l, g);
 }
 
 QTEST_APPLESS_MAIN(UnitTestsTest)

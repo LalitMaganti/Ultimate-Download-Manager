@@ -1,8 +1,9 @@
 #include <QApplication>
-#include "mainwindow.h"
 #include <QColumnView>
 #include <QMessageBox>
 #include <QFile>
+
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {

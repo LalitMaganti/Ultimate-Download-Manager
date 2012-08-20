@@ -131,7 +131,7 @@
            <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <property name="columnCount">
-           <number>5</number>
+           <number>6</number>
           </property>
           <column>
            <property name="text">
@@ -156,6 +156,11 @@
           <column>
            <property name="text">
             <string>Speed</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Time Remaining</string>
            </property>
           </column>
          </widget>
