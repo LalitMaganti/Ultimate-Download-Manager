@@ -40,6 +40,11 @@ else:unix:!symbian: LIBS += -L$$OUT_PWD/../WgetInterface/ -lWgetInterface
 INCLUDEPATH += $$PWD/../WgetInterface
 DEPENDPATH += $$PWD/../WgetInterface
 
+unix:!symbian {
+    target.path = /usr/bin
+    INSTALLS += target
+}
+
 OTHER_FILES += \
     Images/UDM.ico \
     Images/UDM2.ico \
