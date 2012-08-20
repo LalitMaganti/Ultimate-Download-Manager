@@ -39,9 +39,10 @@ void MainWindow::on_pushButton_clicked()
     {
         listOfDownloads.append(df);
         downloadsCount = listOfDownloads.count();
-        connect(df->getWgetProcess(), SIGNAL(lengthChanged(WgetProgressObject *const)), this, SLOT(setLength(WgetProgressObject* const)));
-        connect(df->getWgetProcess(), SIGNAL(wgetStatusChanged(WgetProgressObject *const)), this, SLOT(setStatus(WgetProgressObject *const)));
-        connect(df->getWgetProcess(), SIGNAL(progressChanged(WgetProgressObject *const)), this, SLOT(setProgress(WgetProgressObject* const)));
+        QObject::connect(df->getWgetProcess(), SIGNAL(lengthChanged(WgetProgressObject *const)), this, SLOT(setLength(WgetProgressObject* const)));
+        QObject::connect(df->getWgetProcess(), SIGNAL(wgetStatusChanged(WgetProgressObject *const)), this, SLOT(setStatus(WgetProgressObject *const)));
+        QObject::connect(df->getWgetProcess(), SIGNAL(progressChanged(WgetProgressObject *const)), this, SLOT(setProgress(WgetProgressObject* const)));
+        QObject::connect(df->getWgetProcess(), SIGNAL(speedChanged(WgetProgressObject* const)), this, SLOT(setSpeed(WgetProgressObject* const)));
         ui->tableWidget->setRowCount(downloadsCount);
         df->progressObject->row = (ui->tableWidget->rowCount() - 1);
         setItem(add.url, df->progressObject->row, 0);
@@ -52,6 +53,7 @@ void MainWindow::on_pushButton_clicked()
             setStatus(df->progressObject);
             setProgress(df->progressObject);
             setLength(df->progressObject);
+            setSpeed(df->progressObject);
             ui->btnStartPause->setText("Start");
         }
     }
@@ -71,9 +73,19 @@ void MainWindow::setLength(WgetProgressObject *const progressObject)
     setItem(progressObject->length, progressObject->row, 1);
 }
 
+void MainWindow::setSpeed(WgetProgressObject *const progressObject)
+{
+    setItem(progressObject->speed, progressObject->row, 4);
+}
+
 void MainWindow::setStatus(WgetProgressObject *const progressObject)
 {
-    WgetProgressObject *wpo = progressObject;
+    processSpeed(progressObject);
+    setItem(progressObject->status, progressObject->row, 2);
+}
+
+void MainWindow::processSpeed(WgetProgressObject *wpo)
+{
     if (wpo->status == "Finished")
     {
         if (wpo->length == "Processing")
@@ -88,10 +100,11 @@ void MainWindow::setStatus(WgetProgressObject *const progressObject)
     {
         wpo->progress = -1;
         wpo->length = "See log for more info";
-        setLength(wpo);
+        wpo->speed = "Unknown";
         setProgress(wpo);
+        setLength(wpo);
+        setSpeed(wpo);
     }
-    setItem(progressObject->status, progressObject->row, 2);
 }
 
 void MainWindow::setItem(const QString stringToWrite, int row, int index)
@@ -109,7 +122,7 @@ void MainWindow::setItem(const QString stringToWrite, int row, int index)
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    listOfDownloads[getTableWidgetRow(]->stopProcess();
+    listOfDownloads[getTableWidgetRow()]->stopProcess();
     ui->btnStartPause->setText("Pause");
     stopButtonChange(false);
 }

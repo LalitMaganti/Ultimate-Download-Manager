@@ -6,7 +6,6 @@
 
 TARGET = WgetInterface
 TEMPLATE = lib
-CONFIG += staticlib
 
 DEFINES += WGETINTERFACE_LIBRARY
 
@@ -23,3 +22,6 @@ unix:!symbian {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+windows:CONFIG += staticlib
+unix:CONFIG(release, debug|release):CONFIG += staticlib

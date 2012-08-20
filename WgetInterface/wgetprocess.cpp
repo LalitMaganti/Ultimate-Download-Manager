@@ -8,18 +8,20 @@ WgetProcess::WgetProcess()
     progressObject.progress = 0;
     progressObject.status = "Pending";
     progressObject.length = "Pending";
-    emit(lengthChanged(&progressObject));
-    emit(progressChanged(&progressObject));
-    emit(wgetStatusChanged(&progressObject));
+    progressObject.speed = "Pending";
+    progressObject.buffer = "Download not started";
 }
 
 void WgetProcess::startWget(QStringList args)
 {
     progressObject.status = "Running";
     progressObject.length = "Processing";
-    emit(lengthChanged(&progressObject));
+    progressObject.speed = "Processing";
+    progressObject.buffer = "";
     emit(progressChanged(&progressObject));
+    emit(lengthChanged(&progressObject));
     emit(wgetStatusChanged(&progressObject));
+    emit(speedChanged(&progressObject));
     start("wget", args);
 }
 
@@ -41,7 +43,9 @@ void WgetProcess::processLength(QString *const line)
     {
         progressObject.length = "Unknown - HTML file?";
         progressObject.progress = -1;
+        progressObject.speed = "Unknown";
         emit(progressChanged(&progressObject));
+        emit(speedChanged(&progressObject));
     }
     else
     {
@@ -73,6 +77,7 @@ void WgetProcess::processRawData(QString *const line)
     {
         processProgress(line);
         processTime(line);
+        processSpeed(line);
     }
 }
 
@@ -82,16 +87,22 @@ void WgetProcess::processTime(QString *const line)
     substring2 = substring2.remove(0, 5).trimmed();
     QDateTime time;
     if (substring2.contains('d'))
-    {
         progressObject.time = time.fromString(processTime('d', 'h', &substring2), "dh");
-    }
     else if (substring2.contains('h'))
-    {
         progressObject.time = time.fromString(processTime('h', 'm', &substring2), "dhm");
-    }
     else if (substring2.contains('m'))
-    {
         progressObject.time = time.fromString(processTime('m', 's', &substring2), "ms");
+}
+
+
+void WgetProcess::processSpeed(QString *const line)
+{
+    QString substring1 = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
+    substring1 = substring1.left(substring1.indexOf(" "));
+    if (!(progressObject.speed == substring1))
+    {
+        progressObject.speed = substring1;
+        emit(speedChanged(&progressObject));
     }
 }
 

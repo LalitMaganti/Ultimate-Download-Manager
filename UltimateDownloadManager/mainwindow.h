@@ -31,6 +31,7 @@ private slots:
     void setProgress(WgetProgressObject *const cmdoutput);
     void setStatus(WgetProgressObject *const cmdoutput);
     void setLength(WgetProgressObject *const cmdoutput);
+    void setSpeed(WgetProgressObject *const cmdoutput);
     void setItem(const QString status, int row, int index);
     void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
     void on_tableWidget_itemSelectionChanged();
@@ -48,6 +49,7 @@ private:
     int downloadsCount;
     void stopButtonChange(bool enable);
     int getTableWidgetRow();
+    void processSpeed(WgetProgressObject *wpo);
 };
 
 #endif // MAINWINDOW_H

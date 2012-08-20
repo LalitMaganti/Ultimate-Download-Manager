@@ -18,6 +18,7 @@ public:
     void restartWget(const QStringList args);
     
 signals:
+    void speedChanged(WgetProgressObject *const wpo);
     void progressChanged(WgetProgressObject *const wpo);
     void lineRead(WgetProgressObject *const wpo);
     void lengthChanged(WgetProgressObject *const wpo);
@@ -33,6 +34,7 @@ private:
     void processProgress(QString *const line);
     void processTime(QString *const line);
     QString processTime(const QChar big, const QChar small, QString *const substring2);
+    void processSpeed(QString *const line);
 };
 
 #endif // WGETPROCESS_H

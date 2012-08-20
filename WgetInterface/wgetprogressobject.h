@@ -15,6 +15,7 @@ public:
     QString buffer;
     QString status;
     int row;
+    QString speed;
 };
 
 #endif // WGETPROGRESSOBJECT_H
