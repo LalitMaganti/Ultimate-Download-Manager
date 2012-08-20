@@ -43,6 +43,9 @@ private slots:
     void setLength(WgetProgressObject *const cmdoutput);
     void setSpeed(WgetProgressObject *const cmdoutput);
     void setTime(WgetProgressObject *const cmdoutput);
+    void setOutput(WgetProgressObject *const cmdoutput);
+
+    void on_btnRestart_clicked();
 
 private:
     void setItem(const QString status, int row, int index);

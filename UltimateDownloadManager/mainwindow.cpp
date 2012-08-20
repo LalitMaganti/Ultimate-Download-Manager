@@ -85,6 +85,11 @@ void MainWindow::setTime(WgetProgressObject *const progressObject)
     setItem(progressObject->time, progressObject->row, 5);
 }
 
+void MainWindow::setOutput(WgetProgressObject *const progressObject)
+{
+    setItem(progressObject->output, progressObject->row, 6);
+}
+
 inline void MainWindow::processStatus(WgetProgressObject *wpo)
 {
     int row = wpo->row;
@@ -93,6 +98,7 @@ inline void MainWindow::processStatus(WgetProgressObject *wpo)
         if (wpo->length == "Processing")
         {
             setItem("See log for more info", row, 1);
+            setItem("Unknown", row, 4);
             setItem("Download finished", row, 5);
         }
         if(wpo->length == "0 second(s)")
@@ -129,6 +135,7 @@ void MainWindow::on_pushButton_2_clicked()
     listOfDownloads[getTableWidgetRow()]->stopProcess();
     ui->btnStartPause->setText("Pause");
     MiscFunctions::stopButtonChange(false, ui);
+    ui->btnRestart->setEnabled(false);
 }
 
 void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item)
@@ -234,4 +241,9 @@ inline int MainWindow::getTableWidgetRow()
         return  ui->tableWidget->currentRow();
     else
         return  ((DetailsTab*)ui->tabWidgetMain->currentWidget())->downloadFile->progressObject->row;
+}
+
+void MainWindow::on_btnRestart_clicked()
+{
+    listOfDownloads[getTableWidgetRow()]->restart();
 }

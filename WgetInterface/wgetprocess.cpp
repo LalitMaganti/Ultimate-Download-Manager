@@ -10,6 +10,7 @@ WgetProcess::WgetProcess()
     progressObject.length = "Pending";
     progressObject.speed = "Pending";
     progressObject.time = "Pending";
+    progressObject.output = "Pending";
     progressObject.buffer = "Download not started";
 }
 
@@ -19,12 +20,14 @@ void WgetProcess::startWget(QStringList args)
     progressObject.length = "Processing";
     progressObject.speed = "Processing";
     progressObject.time = "Processing";
+    progressObject.output = "Processing";
     progressObject.buffer = "";
     emit(lengthChanged(&progressObject));
     emit(wgetStatusChanged(&progressObject));
     emit(speedChanged(&progressObject));
     emit(timeChanged(&progressObject));
     emit(progressChanged(&progressObject));
+    emit(outputChanged(&progressObject));
     start("wget", args);
 }
 
@@ -76,6 +79,12 @@ void WgetProcess::processRawData(QString *const line)
     if(line->contains("Length: "))
     {
         processLength(line);
+    }
+    else if(line->contains("Saving to:"))
+    {
+        progressObject.output = line->right(line->length() - line->indexOf('`')).remove('\'').remove('`');
+        emit(outputChanged(&progressObject));
+
     }
     else if(line->contains('%') && line->contains(". .") && (!(progressObject.length == "Unknown - HTML file?")))
     {

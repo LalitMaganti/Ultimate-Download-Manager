@@ -30,6 +30,15 @@ void DownloadFile::pause()
     wp.pauseWget();
 }
 
+void DownloadFile::restart()
+{
+    bool oldresumable = resumable;
+    resumable = false;
+    setArgs();
+    wp.restartWget(args);
+    resumable = oldresumable;
+}
+
 void DownloadFile::start()
 {
     if (started == false)
@@ -39,6 +48,7 @@ void DownloadFile::start()
 
 void DownloadFile::setArgs()
 {
+    args.clear();
     started = true;
     if (!(miscArgs.isEmpty()))
         args.append(miscArgs);

@@ -15,6 +15,7 @@ public:
         QObject::connect(wp, SIGNAL(progressChanged(WgetProgressObject *const)), mw, SLOT(setProgress(WgetProgressObject* const)));
         QObject::connect(wp, SIGNAL(speedChanged(WgetProgressObject* const)), mw, SLOT(setSpeed(WgetProgressObject* const)));
         QObject::connect(wp, SIGNAL(timeChanged(WgetProgressObject* const)), mw, SLOT(setTime(WgetProgressObject* const)));
+        QObject::connect(wp, SIGNAL(outputChanged(WgetProgressObject*const)), mw, SLOT(setOutput(WgetProgressObject* const)));
     }
     inline static void stopButtonChange(bool enable, Ui::MainWindow *ui)
     {

@@ -5,7 +5,7 @@
 #include <QSettings>
 #include <QDir>
 
-class DownloadFile : public WgetProcess
+class DownloadFile
 {
 public:
     // Methods
@@ -18,6 +18,7 @@ public:
     void stopProcess();
     void start();
     void pause();
+    void restart();
 
     // Variables
     int tabIndex;

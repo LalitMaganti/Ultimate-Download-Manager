@@ -1,4 +1,4 @@
-#-------------------------------------------------
+##-------------------------------------------------
 #
 # Project created by QtCreator 2012-07-14T16:54:13
 #
@@ -23,8 +23,8 @@ unix:!symbian {
     INSTALLS += target
 }
 
-windows:CONFIG += staticlib
+windows:CONFIG += static
 
-unix:release {
-    CONFIG += staticlib
-}
+CONFIG += static
+
+unix:CONFIG(debug, debug|release):CONFIG += shared

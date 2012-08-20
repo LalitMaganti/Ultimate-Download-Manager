@@ -30,6 +30,7 @@ signals:
     void progressChanged(WgetProgressObject *const wpo);
     void lineRead(WgetProgressObject *const wpo);
     void lengthChanged(WgetProgressObject *const wpo);
+    void outputChanged(WgetProgressObject *const wpo);
     void wgetStatusChanged(WgetProgressObject *const wpo);
 
 private slots:
