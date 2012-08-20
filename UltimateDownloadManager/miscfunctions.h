@@ -21,6 +21,7 @@ public:
         ui->pushButton_2->setEnabled(enable);
         ui->btnStartPause->setEnabled(enable);
         ui->btnDelete->setEnabled(!enable);
+        ui->btnRestart->setEnabled(!enable);
     }
 };
 

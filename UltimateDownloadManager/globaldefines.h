@@ -3,6 +3,6 @@
 
 static const int majorVersion = 0;
 static const int minorVersion = 6;
-static const int buildVersion = 2;
+static const int buildVersion = 5;
 
 #endif // GLOBALDEFINES_H

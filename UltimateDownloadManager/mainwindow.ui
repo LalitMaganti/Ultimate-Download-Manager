@@ -91,6 +91,16 @@
          </widget>
         </item>
         <item>
+         <widget class="QPushButton" name="btnRestart">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Restart</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="btnDelete">
           <property name="enabled">
            <bool>false</bool>

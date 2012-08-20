@@ -38,14 +38,14 @@ private slots:
     void on_actionSettings_triggered();
     void on_actionOpen_Download_Directory_triggered();
     void on_actionAbout_triggered();
-
-private:
     void setProgress(WgetProgressObject *const cmdoutput);
     void setStatus(WgetProgressObject *const cmdoutput);
     void setLength(WgetProgressObject *const cmdoutput);
     void setSpeed(WgetProgressObject *const cmdoutput);
     void setTime(WgetProgressObject *const cmdoutput);
     void setItem(const QString status, int row, int index);
+
+private:
     Ui::MainWindow *ui;
     QList<DownloadFile*> listOfDownloads;
     int downloadsCount;
