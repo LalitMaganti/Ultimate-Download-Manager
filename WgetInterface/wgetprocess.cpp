@@ -39,7 +39,7 @@ void WgetProcess::readWgetLine()
     }
 }
 
-void WgetProcess::processLength(QString *const line)
+inline void WgetProcess::processLength(QString *const line)
 {
     if (line->contains("unspecified"))
     {
@@ -58,8 +58,9 @@ void WgetProcess::processLength(QString *const line)
     emit(lengthChanged(&progressObject));
 }
 
-void WgetProcess::processProgress(QString *const line)
+inline void WgetProcess::processProgress(QString *const line)
 {
+
     QString substring1 = line->left(line->lastIndexOf('%'));
     substring1 = substring1.right(substring1.length() - substring1.lastIndexOf('.')).remove('.').trimmed() + "%";
     if (!(progressObject.progress == substring1))
@@ -83,69 +84,76 @@ void WgetProcess::processRawData(QString *const line)
     }
 }
 
-void WgetProcess::processTime(QString *const line)
+inline void WgetProcess::processTime(QString *const line)
 {
-    QString substring2 = line->right(line->length() - line->lastIndexOf('%')).remove('%').trimmed();
-    substring2 = substring2.remove(0, 5).trimmed();
-    QDateTime time;
-    if (substring2.contains('d'))
-        time = time.fromString(processTime('d', 'h', &substring2), "dh");
-    else if (substring2.contains('h'))
-        time = time.fromString(processTime('h', 'm', &substring2), "dhm");
-    else if (substring2.contains('m'))
-        time = time.fromString(processTime('m', 's', &substring2), "ms");
-    int days = time.date().day() - 1;
-    int hours = time.time().hour();
-    int minutes = time.time().minute();
-    int seconds = time.time().second();
-    QString *final = &progressObject.time;
-    if(!(days == 0))
+    QString substring1;
+    QString substring2;
+    if(line->contains("100%"))
     {
-        if (days == 1)
-            *final += QString::number(days) + " day ";
-        else
-            *final += QString::number(days) + " days ";
+        substring1 = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
+        substring2 = substring1.left(substring1.indexOf(" "));
+        substring2 = substring2.right(substring2.length() - substring2.indexOf("=")).remove("=");
     }
-    if(!(hours == 0))
-    {
-        if (hours == 1)
-            *final += QString::number(hours) + " hour ";
-        else
-            *final += QString::number(hours) + " hours ";
-    }
-    if(!(minutes == 0))
-    {
-        if (minutes == 1)
-            *final += QString::number(minutes) + " minute ";
-        else
-            *final += QString::number(minutes) + " minutes ";
-    }
-    if (seconds == 1)
-        *final += QString::number(seconds) + " second";
     else
-        *final += QString::number(seconds) + " seconds";
+    {
+        substring2 = line->right(line->length() - line->lastIndexOf('%')).remove('%').trimmed();
+        substring2 = substring2.remove(0, 5).trimmed();
+    }
+        progressObject.time = "";
+        QString *final = &progressObject.time;
+        QString *time;
+        if (substring2.contains('d'))
+        {
+            time = processTime('d', 'h', &substring2);
+            *final = time[0] + " day(s) " + time[1] + " hour(s)";
+        }
+        else if (substring2.contains('h'))
+        {
+            time = processTime('h', 'm', &substring2);
+            *final = time[0] + " hour(s) " + time[1] + " minute(s)";
+        }
+        else if (substring2.contains('m'))
+        {
+            time = processTime('m', 's', &substring2);
+            *final = time[0] + " minute(s) " + time[1] + " second(s)";
+        }
+        else
+            *final = substring2 + " second(s)";
     emit(timeChanged(&progressObject));
 }
 
-inline QString WgetProcess::processTime(const QChar big, const QChar small, QString *const substring2)
+QString* WgetProcess::processTime(const QChar big, const QChar small, QString *const substring2)
 {
-    QString bigstring = substring2->left(substring2->indexOf(big));
-    const QString smallstring = substring2->right(substring2->length() - substring2->indexOf(big) - 1).remove(small);
-    if ((big == 'h') && (bigstring.toInt() > 24))
+
+    QString *time = new QString[2];
+    time[0] = substring2->left(substring2->indexOf(big));
+    time[1] = substring2->right(substring2->length() - substring2->indexOf(big) - 1).remove(small);
+    if ((big == 'h') && (time[0].toInt() > 24))
     {
-        bigstring = QString::number(bigstring.toInt() - 24);
-        bigstring += "1";
+        time[0] = QString::number(time[0].toInt() - 24);
+        time[0] += "1";
     }
-    return (bigstring + smallstring);
+    return time;
 }
 
-void WgetProcess::processSpeed(QString *const line)
+inline void WgetProcess::processSpeed(QString *const line)
 {
-    QString substring1 = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
-    substring1 = substring1.left(substring1.indexOf(" "));
-    if (!(progressObject.speed == substring1))
+    QString substring1;
+    QString substring2;
+    if(line->contains("100%"))
     {
-        progressObject.speed = substring1;
+        substring1 = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
+        substring2 = substring1.left(substring1.indexOf(" "));
+        substring2 = substring2.left(substring2.indexOf("="));
+    }
+    else
+    {
+        substring1 = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
+        substring2 = substring1.left(substring1.indexOf(" "));
+    }
+    if (!(progressObject.speed == substring2))
+    {
+        progressObject.speed = substring2;
         emit(speedChanged(&progressObject));
     }
 }

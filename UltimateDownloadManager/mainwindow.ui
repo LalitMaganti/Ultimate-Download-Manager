@@ -160,7 +160,7 @@
           </column>
           <column>
            <property name="text">
-            <string>Time Remaining</string>
+            <string>Time Remaining/Taken</string>
            </property>
           </column>
          </widget>

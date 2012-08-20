@@ -21,7 +21,7 @@ public:
     void processLength(QString *const line);
     void processProgress(QString *const line);
     void processTime(QString *const line);
-    QString processTime(const QChar big, const QChar small, QString *const substring2);
+    QString *processTime(const QChar big, const QChar small, QString *const substring2);
     void processSpeed(QString *const line);
 
 signals:

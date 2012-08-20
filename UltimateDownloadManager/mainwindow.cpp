@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->tabWidgetMain->tabBarPublic->tabButton(0, QTabBar::RightSide)->hide();
+    ui->tableWidget->resizeColumnsToContents();
 }
 
 MainWindow::~MainWindow()
@@ -90,16 +91,22 @@ inline void MainWindow::processStatus(WgetProgressObject *wpo)
     if (wpo->status == "Finished")
     {
         if (wpo->length == "Processing")
+        {
             setItem("See log for more info", row, 1);
+            setItem("Download finished", row, 5);
+        }
+        if(wpo->length == "0s second(s)")
         setItem("100%",row, 3);
+        MiscFunctions::stopButtonChange(false, ui);
     }
     else if(wpo->status == "Failed")
     {
         setItem("See log for more info", row, 1);
         setItem("Unknown", row, 3);
         setItem("Unknown", row, 4);
+        setItem("Download failed", row, 5);
+        MiscFunctions::stopButtonChange(false, ui);
     }
-    setItem("0 seconds - Download finished", row, 5);
     ui->tableWidget->resizeColumnsToContents();
 }
 
