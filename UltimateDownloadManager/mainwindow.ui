@@ -96,7 +96,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>Restart</string>
+           <string>Redownload</string>
           </property>
          </widget>
         </item>

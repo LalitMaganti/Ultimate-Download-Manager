@@ -103,8 +103,7 @@ inline void MainWindow::processStatus(WgetProgressObject *wpo)
         }
         if(wpo->length == "0 second(s)")
             setItem("Download finished", row, 5);
-        setItem("100%",row, 3);
-        MiscFunctions::stopButtonChange(false, ui);
+        setItem("100%", row, 3);
     }
     else if(wpo->status == "Failed")
     {
@@ -112,8 +111,8 @@ inline void MainWindow::processStatus(WgetProgressObject *wpo)
         setItem("Unknown", row, 3);
         setItem("Unknown", row, 4);
         setItem("Download failed", row, 5);
-        MiscFunctions::stopButtonChange(false, ui);
     }
+    MiscFunctions::stopButtonChange(false, ui);
     ui->tableWidget->resizeColumnsToContents();
 }
 
@@ -245,5 +244,7 @@ inline int MainWindow::getTableWidgetRow()
 
 void MainWindow::on_btnRestart_clicked()
 {
+    RedownloadDialog rd(listOfDownloads[getTableWidgetRow()]);
+    int k = rd.exec();
     listOfDownloads[getTableWidgetRow()]->restart();
 }

@@ -23,8 +23,5 @@ unix:!symbian {
     INSTALLS += target
 }
 
-windows:CONFIG += static
-
-CONFIG += static
-
 unix:CONFIG(debug, debug|release):CONFIG += shared
+else:CONFIG += static

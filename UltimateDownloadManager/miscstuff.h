@@ -1,9 +1,13 @@
-#ifndef MISCFUNCTIONS_H
-#define MISCFUNCTIONS_H
+#ifndef MISCSTUFF_H
+#define MISCSTUFF_H
 
 #include "wgetprocess.h"
 #include <QMainWindow>
 #include "ui_mainwindow.h"
+
+static const int majorVersion = 0;
+static const int minorVersion = 7;
+static const int buildVersion = 0;
 
 class MiscFunctions
 {
@@ -26,4 +30,4 @@ public:
     }
 };
 
-#endif // MISCFUNCTIONS_H
+#endif // MISCSTUFF_H

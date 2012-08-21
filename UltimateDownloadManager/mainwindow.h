@@ -12,7 +12,8 @@
 #include "detailstab.h"
 #include "settings.h"
 #include "aboutdialog.h"
-#include "miscfunctions.h"
+#include "miscstuff.h"
+#include "redownloaddialog.h"
 
 namespace Ui {
 class MainWindow;

@@ -50,8 +50,10 @@ inline void WgetProcess::processLength(QString *const line)
         progressObject.length = "Unknown - HTML file?";
         progressObject.progress = "Unknown";
         progressObject.speed = "Unknown";
+        progressObject.time = "Unknown";
         emit(progressChanged(&progressObject));
         emit(speedChanged(&progressObject));
+        emit(timeChanged(&progressObject));
     }
     else
     {

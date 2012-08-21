@@ -28,13 +28,13 @@ public:
     QString fullPath;
     QString miscArgs;
     WgetProgressObject *progressObject;
+    bool overwriteRestart;
 
 private:
     QStringList args;
     WgetProcess wp;
     QString url;
     void setArgs();
-
 };
 
 #endif // DOWNLOADFILE_H

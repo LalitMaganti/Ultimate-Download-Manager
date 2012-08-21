@@ -6,8 +6,10 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 #include <QLabel>
+
 #include "wgetprogressobject.h"
 #include "downloadfile.h"
+
 class DetailsTab : public QWidget
 {
     Q_OBJECT

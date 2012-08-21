@@ -14,7 +14,8 @@ SOURCES += main.cpp \
            adddialog.cpp \
            detailstab.cpp \
            settings.cpp \
-           aboutdialog.cpp
+           aboutdialog.cpp \
+    redownloaddialog.cpp
 
 HEADERS  += mainwindow.h \
             mainwindow.h \
@@ -23,13 +24,14 @@ HEADERS  += mainwindow.h \
             downloadtabwidget.h \
             settings.h \
             aboutdialog.h \
-            globaldefines.h \
-    miscfunctions.h
+    redownloaddialog.h \
+    miscstuff.h
 
 FORMS    += mainwindow.ui \
             adddialog.ui \
             settings.ui \
-            aboutdialog.ui
+            aboutdialog.ui \
+    redownloaddialog.ui
 
 !windows:QMAKE_CXXFLAGS += -std=c++0x
 
