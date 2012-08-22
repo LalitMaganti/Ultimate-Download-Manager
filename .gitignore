@@ -36,3 +36,6 @@ moc_*.cpp
 
 # UI temp headers
 ui_*.h
+
+# InstallShield
+*.iss

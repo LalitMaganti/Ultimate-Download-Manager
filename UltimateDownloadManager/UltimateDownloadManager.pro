@@ -4,40 +4,43 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets
+QT       += core gui widgets dialogheader
 
 TARGET = UltimateDownloadManager
 TEMPLATE = app
 
 SOURCES += main.cpp \
            mainwindow.cpp \
-           adddialog.cpp \
+           dialogsource/adddialog.cpp \
            detailstab.cpp \
-           settings.cpp \
-           aboutdialog.cpp \
-    redownloaddialog.cpp
+           dialogsource/settings.cpp \
+           dialogsource/aboutdialog.cpp \
+           dialogsource/redownloaddialog.cpp
 
 HEADERS  += mainwindow.h \
             mainwindow.h \
-            adddialog.h \
+            dialogheader/adddialog.h \
             detailstab.h \
             downloadtabwidget.h \
-            settings.h \
-            aboutdialog.h \
-    redownloaddialog.h \
-    miscstuff.h
+            dialogheader/settings.h \
+            dialogheader/aboutdialog.h \
+            dialogheader/redownloaddialog.h \
+            miscstuff.h
 
 FORMS    += mainwindow.ui \
-            adddialog.ui \
-            settings.ui \
-            aboutdialog.ui \
-    redownloaddialog.ui
+            dialogui/adddialog.ui \
+            dialogui/settings.ui \
+            dialogui/aboutdialog.ui \
+            dialogui/redownloaddialog.ui
 
 !windows:QMAKE_CXXFLAGS += -std=c++0x
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/release/ -lWgetInterface
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/debug/ -lWgetInterface
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/release -lWgetInterface
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/debug -lWgetInterface
 else:unix:!symbian: LIBS += -L$$OUT_PWD/../WgetInterface/ -lWgetInterface
+
+
+windows:RC_FILE = images/icon.rc
 
 INCLUDEPATH += $$PWD/../WgetInterface
 DEPENDPATH += $$PWD/../WgetInterface
@@ -48,7 +51,8 @@ unix:!symbian {
 }
 
 OTHER_FILES += \
-    Images/UDM.ico \
-    Images/UDM2.ico \
-    Images/UDM.png \
-    Images/UDM2.png
+    images/UDM.ico \
+    images/UDM2.ico \
+    images/UDM.png \
+    images/UDM2.png \
+    images/icon.rc

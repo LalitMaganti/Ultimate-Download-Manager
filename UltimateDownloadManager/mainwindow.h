@@ -8,12 +8,12 @@
 #include <QDesktopServices>
 
 #include "downloadfile.h"
-#include "adddialog.h"
+#include "dialogheader/adddialog.h"
 #include "detailstab.h"
-#include "settings.h"
-#include "aboutdialog.h"
+#include "dialogheader/settings.h"
+#include "dialogheader/aboutdialog.h"
 #include "miscstuff.h"
-#include "redownloaddialog.h"
+#include "dialogheader/redownloaddialog.h"
 
 namespace Ui {
 class MainWindow;

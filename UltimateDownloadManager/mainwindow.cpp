@@ -245,6 +245,6 @@ inline int MainWindow::getTableWidgetRow()
 void MainWindow::on_btnRestart_clicked()
 {
     RedownloadDialog rd(listOfDownloads[getTableWidgetRow()]);
-    int k = rd.exec();
+    /*int k =*/ rd.exec();
     listOfDownloads[getTableWidgetRow()]->restart();
 }

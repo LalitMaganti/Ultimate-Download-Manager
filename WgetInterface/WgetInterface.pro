@@ -24,4 +24,5 @@ unix:!symbian {
 }
 
 unix:CONFIG(debug, debug|release):CONFIG += shared
+windows:CONFIG += static
 else:CONFIG += static

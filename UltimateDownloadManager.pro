@@ -2,5 +2,4 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     WgetInterface \
-    UltimateDownloadManager \
-    UnitTests
+    UltimateDownloadManager
