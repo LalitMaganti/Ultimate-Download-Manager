@@ -1,13 +1,17 @@
 #ifndef MISCSTUFF_H
 #define MISCSTUFF_H
 
-#include "wgetprocess.h"
 #include <QMainWindow>
+#include <QDir>
+#include <QString>
+
+#include "wgetprocess.h"
 #include "ui_mainwindow.h"
 
 static const int majorVersion = 0;
 static const int minorVersion = 8;
 static const int buildVersion = 5;
+static const QString homedir = QDir::toNativeSeparators(QDir::homePath());
 
 class MiscFunctions
 {

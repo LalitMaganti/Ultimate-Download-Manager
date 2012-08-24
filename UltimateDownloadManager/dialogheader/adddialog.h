@@ -9,6 +9,7 @@
 #include <QFileDialog>
 
 #include "downloadfile.h"
+#include "miscstuff.h"
 
 namespace Ui {
 class AddDialog;

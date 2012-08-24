@@ -9,7 +9,8 @@ Settings::Settings(QWidget *parent) :
     this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(width(), height());
     QSettings settings;
-    saveLocation = settings.value("download/savelocation", QDir::homePath()).toString();
+    settings.setPath(QSettings::IniFormat, QSettings::UserScope, "settings.ini");
+    saveLocation = settings.value("download/savelocation", homedir).toString();
     ui->lineEdit->setText(saveLocation);
 }
 
@@ -33,6 +34,7 @@ void Settings::on_toolButton_clicked()
 void Settings::on_buttonBox_accepted()
 {
     QSettings settings;
+    settings.setPath(QSettings::IniFormat, QSettings::UserScope, "settings.ini");
     settings.setValue("download/savelocation", saveLocation);
     settings.sync();
 }

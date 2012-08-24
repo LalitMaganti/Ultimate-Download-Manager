@@ -14,13 +14,15 @@ AddDialog::AddDialog() : QDialog(), ui(new Ui::AddDialog)
         ui->btnOK->setEnabled(true);
     }
     QSettings settings;
-    ui->txtSave->setText(settings.value("download/savelocation", QDir::homePath()).toString());
+    settings.setPath(QSettings::IniFormat, QSettings::UserScope, "settings.ini");
+    ui->txtSave->setText(settings.value("download/savelocation", homedir).toString());
 }
 
 AddDialog::~AddDialog()
 {
     delete ui;
 }
+
 void AddDialog::on_btnOK_clicked()
 {
     url = ui->lineEdit->text();
@@ -54,7 +56,8 @@ void AddDialog::on_checkBox_2_clicked()
     if(!enable)
     {
         QSettings settings;
-        ui->txtSave->setText(settings.value("download/savelocation", QDir::homePath()).toString());
+        settings.setPath(QSettings::IniFormat, QSettings::UserScope, "settings.ini");
+        ui->txtSave->setText(settings.value("download/savelocation", homedir).toString());
     }
 }
 

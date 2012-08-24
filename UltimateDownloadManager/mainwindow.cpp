@@ -223,7 +223,8 @@ void MainWindow::on_actionSettings_triggered()
 void MainWindow::on_actionOpen_Download_Directory_triggered()
 {
     QSettings settings;
-    QString path = QDir::toNativeSeparators(settings.value("download/savelocation", QDir::homePath()).toString());
+    settings.setPath(QSettings::IniFormat, QSettings::UserScope, "settings.ini");
+    QString path = settings.value("download/savelocation", homedir).toString();
     QDesktopServices::openUrl(QUrl("file:///" + path));
 }
 
