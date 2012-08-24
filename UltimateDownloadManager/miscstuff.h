@@ -10,7 +10,7 @@
 
 static const int majorVersion = 0;
 static const int minorVersion = 8;
-static const int buildVersion = 5;
+static const int buildVersion = 6;
 static const QString homedir = QDir::toNativeSeparators(QDir::homePath());
 
 class MiscFunctions
