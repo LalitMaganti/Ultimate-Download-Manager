@@ -2,7 +2,6 @@
 #define DOWNLOADFILE_H
 
 #include "wgetprocess.h"
-#include <QSettings>
 #include <QDir>
 
 class DownloadFile

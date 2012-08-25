@@ -8,9 +8,7 @@ Settings::Settings(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(width(), height());
-    QSettings settings;
-    settings.setPath(QSettings::IniFormat, QSettings::UserScope, "settings.ini");
-    saveLocation = settings.value("download/savelocation", homedir).toString();
+    saveLocation = MiscFunctions::getOutDirectory();
     ui->lineEdit->setText(saveLocation);
 }
 

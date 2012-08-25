@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-TARGET = WgetInterface
+TARGET = wgetinterface
 TEMPLATE = lib
 
 DEFINES += WGETINTERFACE_LIBRARY

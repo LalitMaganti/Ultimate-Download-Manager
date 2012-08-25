@@ -101,7 +101,7 @@ inline void MainWindow::processStatus(WgetProgressObject *wpo)
             setItem("Unknown", row, 4);
             setItem("Download finished", row, 5);
         }
-        if(wpo->length == "0 second(s)")
+        else if(wpo->length == "0 second(s)")
             setItem("Download finished", row, 5);
         setItem("100%", row, 3);
     }
@@ -222,10 +222,7 @@ void MainWindow::on_actionSettings_triggered()
 
 void MainWindow::on_actionOpen_Download_Directory_triggered()
 {
-    QSettings settings;
-    settings.setPath(QSettings::IniFormat, QSettings::UserScope, "settings.ini");
-    QString path = settings.value("download/savelocation", homedir).toString();
-    QDesktopServices::openUrl(QUrl("file:///" + path));
+    QDesktopServices::openUrl(QUrl("file:///" + MiscFunctions::getOutDirectory()));
 }
 
 void MainWindow::on_actionAbout_triggered()

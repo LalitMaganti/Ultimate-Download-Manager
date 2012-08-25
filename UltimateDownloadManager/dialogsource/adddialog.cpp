@@ -13,9 +13,7 @@ AddDialog::AddDialog() : QDialog(), ui(new Ui::AddDialog)
         ui->lineEdit->setText(k->text());
         ui->btnOK->setEnabled(true);
     }
-    QSettings settings;
-    settings.setPath(QSettings::IniFormat, QSettings::UserScope, "settings.ini");
-    ui->txtSave->setText(settings.value("download/savelocation", homedir).toString());
+    ui->txtSave->setText(MiscFunctions::getOutDirectory());
 }
 
 AddDialog::~AddDialog()
@@ -54,11 +52,7 @@ void AddDialog::on_checkBox_2_clicked()
     ui->txtSave->setEnabled(enable);
     ui->lblSave->setEnabled(enable);
     if(!enable)
-    {
-        QSettings settings;
-        settings.setPath(QSettings::IniFormat, QSettings::UserScope, "settings.ini");
-        ui->txtSave->setText(settings.value("download/savelocation", homedir).toString());
-    }
+        ui->txtSave->setText(MiscFunctions::getOutDirectory());
 }
 
 void AddDialog::on_btnSave_clicked()

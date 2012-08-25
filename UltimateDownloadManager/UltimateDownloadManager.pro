@@ -6,7 +6,7 @@
 
 QT       += core gui widgets dialogheader
 
-TARGET = UltimateDownloadManager
+TARGET = ultimatedownloadmanager
 TEMPLATE = app
 
 SOURCES += main.cpp \
@@ -35,9 +35,9 @@ FORMS    += mainwindow.ui \
 
 !windows:QMAKE_CXXFLAGS += -std=c++0x
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/release -lWgetInterface
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/debug -lWgetInterface
-else:unix:!symbian: LIBS += -L$$OUT_PWD/../WgetInterface/ -lWgetInterface
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/release -lwgetinterface
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/debug -lwgetinterface
+else:unix:!symbian: LIBS += -L$$OUT_PWD/../WgetInterface/ -lwgetinterface
 
 
 windows:RC_FILE = images/icon.rc
