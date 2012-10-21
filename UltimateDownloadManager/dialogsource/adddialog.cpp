@@ -7,13 +7,25 @@ AddDialog::AddDialog() : QDialog(), ui(new Ui::AddDialog)
     this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(width(), height());
     QClipboard *k = QApplication::clipboard();
-    QString kf = k->text();
-    if (QUrl(kf).isValid())
-    {
-        ui->lineEdit->setText(k->text());
-        ui->btnOK->setEnabled(true);
-    }
+    tempUrl = k->text();
+
+    QNetworkAccessManager* nam = new QNetworkAccessManager(this);
+
+    QNetworkReply *reply = nam->head(QNetworkRequest(tempUrl));
+
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
+            this, SLOT(replyFinished(QNetworkReply::NetworkError)));
+
+    ui->lineEdit->setText(tempUrl);
+    ui->btnOK->setEnabled(true);
+
     ui->txtSave->setText(MiscFunctions::getOutDirectory());
+}
+
+void AddDialog::replyFinished(QNetworkReply::NetworkError network)
+{
+    ui->lineEdit->setText("");
+    ui->btnOK->setEnabled(false);
 }
 
 AddDialog::~AddDialog()

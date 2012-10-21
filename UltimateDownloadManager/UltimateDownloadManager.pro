@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets dialogheader
+QT       += core gui widgets dialogheader network
 
 TARGET = ultimatedownloadmanager
 TEMPLATE = app

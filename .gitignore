@@ -12,6 +12,7 @@
 *.exe
 *.lib
 UltimateDownloadManager/UltimateDownloadManager
+UltimateDownloadManager/ultimatedownloadmanager
 UnitTests/tst_unitteststest
 
 # Compiled Static libraries
