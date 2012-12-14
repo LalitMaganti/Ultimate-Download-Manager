@@ -5,7 +5,7 @@ WgetProcess::WgetProcess()
     setReadChannel(QProcess::StandardError);
     connect(this, SIGNAL(readyReadStandardError()), this, SLOT(readWgetLine()));
     connect(this, SIGNAL(finished(int)), this, SLOT(processFinished(int)));
-    progressObject.progress = "0%";
+    progressObject.progressInt = 0;
     progressObject.status = "Pending";
     progressObject.length = "Pending";
     progressObject.speed = "Pending";
@@ -48,7 +48,8 @@ inline void WgetProcess::processLength(QString *const line)
     if (line->contains("unspecified"))
     {
         progressObject.length = "Unknown - HTML file?";
-        progressObject.progress = "Unknown";
+        //SHOULD BE -1 - IMPLEMENT ERROR CATCH IN FUTURE
+        progressObject.progressInt = 100;
         progressObject.speed = "Unknown";
         progressObject.time = "Unknown";
         emit(progressChanged(&progressObject));
@@ -68,10 +69,10 @@ inline void WgetProcess::processProgress(QString *const line)
 {
 
     QString substring1 = line->left(line->lastIndexOf('%'));
-    substring1 = substring1.right(substring1.length() - substring1.lastIndexOf('.')).remove('.').trimmed() + "%";
-    if (!(progressObject.progress == substring1))
+    int substring2 = substring1.right(substring1.length() - substring1.lastIndexOf('.')).remove('.').trimmed().toInt();
+    if (!(progressObject.progressInt == substring2))
     {
-        progressObject.progress = substring1;
+        progressObject.progressInt = substring2;
         emit(progressChanged(&progressObject));
     }
 }

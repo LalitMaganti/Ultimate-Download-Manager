@@ -6,19 +6,30 @@
 #include <QString>
 #include <QSettings>
 
-#include "wgetprocess.h"
+#include "downloadfile.h"
 #include "ui_mainwindow.h"
 
 static const int majorVersion = 0;
 static const int minorVersion = 8;
-static const int buildVersion = 6;
+static const int buildVersion = 10;
+
+enum tableRow
+{
+    URL = 0,
+    FileSize = 1,
+    Status = 2,
+    Progress = 3,
+    Speed = 4,
+    Time = 5,
+    Output = 6
+};
 
 class MiscFunctions
 {
 public:
-    inline static void connectWgetAndMainWindow(const WgetProcess *wp, QMainWindow *mw)
+    inline static void connectWgetAndMainWindow(const DownloadFile *wp, QMainWindow *mw)
     {
-        QObject::connect(wp, SIGNAL(lengthChanged(WgetProgressObject *const)), mw, SLOT(setLength(WgetProgressObject* const)));
+        QObject::connect(wp, SIGNAL(lengthChanged(WgetProgressObject *const)), mw, SLOT(setFileSize(WgetProgressObject* const)));
         QObject::connect(wp, SIGNAL(wgetStatusChanged(WgetProgressObject *const)), mw, SLOT(setStatus(WgetProgressObject *const)));
         QObject::connect(wp, SIGNAL(progressChanged(WgetProgressObject *const)), mw, SLOT(setProgress(WgetProgressObject* const)));
         QObject::connect(wp, SIGNAL(speedChanged(WgetProgressObject* const)), mw, SLOT(setSpeed(WgetProgressObject* const)));

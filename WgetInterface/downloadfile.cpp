@@ -5,29 +5,28 @@ DownloadFile::DownloadFile(QString urlarg)
     tabIndex = -1;
     url = urlarg;
     started = false;
-    progressObject = &wp.progressObject;
 }
 
 DownloadFile::~DownloadFile()
 {
-    if (!(progressObject->status == "Finished"))
+    if (!(progressObject.status == "Finished"))
         stopProcess();
 }
 
 void DownloadFile::download()
 {
     setArgs();
-    wp.startWget(args);
+    startWget(args);
 }
 
 void DownloadFile::stopProcess()
 {
-    wp.terminateWget();
+    terminateWget();
 }
 
 void DownloadFile::pause()
 {
-    wp.pauseWget();
+    pauseWget();
 }
 
 void DownloadFile::restart()
@@ -35,7 +34,7 @@ void DownloadFile::restart()
     bool oldresumable = resumable;
     resumable = false;
     setArgs();
-    wp.restartWget(args);
+    restartWget(args);
     resumable = oldresumable;
 }
 
@@ -43,7 +42,7 @@ void DownloadFile::start()
 {
     if (started == false)
         setArgs();
-    wp.restartWget(args);
+    restartWget(args);
 }
 
 void DownloadFile::setArgs()

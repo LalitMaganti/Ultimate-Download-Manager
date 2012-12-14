@@ -2,17 +2,13 @@
 #define DOWNLOADFILE_H
 
 #include "wgetprocess.h"
-#include <QDir>
 
-class DownloadFile
+class DownloadFile : public WgetProcess
 {
 public:
     // Methods
     DownloadFile(QString url);
     ~DownloadFile();
-    // TODO: Should be removed
-    const WgetProcess* getWgetProcess(){return &wp;}
-    // in the future
     void download();
     void stopProcess();
     void start();
@@ -26,12 +22,10 @@ public:
     QString outdir;
     QString fullPath;
     QString miscArgs;
-    WgetProgressObject *progressObject;
     bool overwriteRestart;
 
 private:
     QStringList args;
-    WgetProcess wp;
     QString url;
     void setArgs();
 };

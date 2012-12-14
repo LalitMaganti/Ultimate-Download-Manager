@@ -10,9 +10,7 @@ AddDialog::AddDialog() : QDialog(), ui(new Ui::AddDialog)
     tempUrl = k->text();
 
     QNetworkAccessManager* nam = new QNetworkAccessManager(this);
-
     QNetworkReply *reply = nam->head(QNetworkRequest(tempUrl));
-
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
             this, SLOT(replyFinished(QNetworkReply::NetworkError)));
 

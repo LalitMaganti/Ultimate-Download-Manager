@@ -6,8 +6,8 @@ RedownloadDialog::RedownloadDialog(DownloadFile *dfa, QWidget *parent) :
     ui(new Ui::RedownloadDialog)
 {
     ui->setupUi(this);
-    QString previousOutput = dfa->progressObject->output;
     df = dfa;
+    QString previousOutput = dfa->progressObject.output;
     previousOutput = previousOutput.remove('\n');
     ui->txtSame->setText(previousOutput);
     QString ext = previousOutput.right(previousOutput.lastIndexOf("."));
