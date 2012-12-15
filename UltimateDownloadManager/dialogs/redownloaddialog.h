@@ -2,9 +2,9 @@
 #define REDOWNLOADDIALOG_H
 
 #include <QDialog>
-#include <QDebug>
 
 #include "downloadfile.h"
+#include "ui_redownloaddialog.h"
 
 namespace Ui {
 class RedownloadDialog;

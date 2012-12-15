@@ -1,10 +1,8 @@
-#include "dialogheader/adddialog.h"
-#include "ui_adddialog.h"
+#include "dialogs/adddialog.h"
 
 AddDialog::AddDialog() : QDialog(), ui(new Ui::AddDialog)
 {
     ui->setupUi(this);
-    this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(width(), height());
     QClipboard *k = QApplication::clipboard();
     tempUrl = k->text();
@@ -22,8 +20,11 @@ AddDialog::AddDialog() : QDialog(), ui(new Ui::AddDialog)
 
 void AddDialog::replyFinished(QNetworkReply::NetworkError network)
 {
-    ui->lineEdit->setText("");
-    ui->btnOK->setEnabled(false);
+    if (network != 0)
+    {
+        ui->lineEdit->setText("");
+        ui->btnOK->setEnabled(false);
+    }
 }
 
 AddDialog::~AddDialog()
@@ -39,7 +40,7 @@ void AddDialog::on_btnOK_clicked()
     fileGlobal->miscArgs = ui->lineEdit_2->text();
     start = ui->chkStart->isChecked();
     if (ui->chkName->isChecked())
-        fileGlobal->outdir = ui->txtSave->text();
+        fileGlobal->outDir = ui->txtSave->text();
     else
         fileGlobal->fullPath = ui->txtSave->text() + QDir::separator() + ui->txtName->text();
     this->accept();

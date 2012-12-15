@@ -8,15 +8,8 @@ class WgetProgressObject
 {
 public:
     WgetProgressObject(){}
-    QString length;
-    int progressInt;
-    QString time;
-    QString rawLine;
-    QString buffer;
-    QString status;
-    int row;
-    QString speed;
-    QString output;
+    int row, progressInt;
+    QString length, time, rawLine, buffer, speed, status, output;
 };
 
 #endif // WGETPROGRESSOBJECT_H

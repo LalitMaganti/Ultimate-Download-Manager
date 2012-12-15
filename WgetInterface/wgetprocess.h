@@ -12,11 +12,14 @@ class WgetProcess : public QProcess
 public:
     WgetProcess();
     WgetProgressObject progressObject;
+
+ protected:
     void startWget(const QStringList args);
     void terminateWget();
     void pauseWget();
     void restartWget(const QStringList args);
 
+private:
     void processRawData(QString *const line);
     void processLength(QString *const line);
     void processProgress(QString *const line);

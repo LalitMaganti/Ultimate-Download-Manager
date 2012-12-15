@@ -54,8 +54,8 @@ void DownloadFile::setArgs()
     args << url;
     if (resumable)
         args << "-c";
-    if (!outdir.isEmpty())
-        args << "-P" << outdir;
+    if (!outDir.isEmpty())
+        args << "-P" << outDir;
     else
         args << "-O" << fullPath;
 }

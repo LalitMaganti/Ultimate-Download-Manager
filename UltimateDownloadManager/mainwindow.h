@@ -6,19 +6,13 @@
 #include <QTabBar>
 #include <QDir>
 #include <QDesktopServices>
-#include <QProgressBar>
 
 #include "downloadfile.h"
-#include "dialogheader/adddialog.h"
-#include "detailstab.h"
-#include "dialogheader/settings.h"
-#include "dialogheader/aboutdialog.h"
-#include "miscstuff.h"
-#include "dialogheader/redownloaddialog.h"
-
-namespace Ui {
-class MainWindow;
-}
+#include "dialogs/adddialog.h"
+#include "uicomponents/detailstab.h"
+#include "dialogs/settings.h"
+#include "dialogs/aboutdialog.h"
+#include "dialogs/redownloaddialog.h"
 
 class MainWindow : public QMainWindow
 {
@@ -39,25 +33,17 @@ private slots:
     void on_actionSettings_triggered();
     void on_actionOpen_Download_Directory_triggered();
     void on_actionAbout_triggered();
-    void setProgress(WgetProgressObject *const cmdoutput);
+    void processStatus(WgetProgressObject *wpo);
     void setStatus(WgetProgressObject *const cmdoutput);
-    void setFileSize(WgetProgressObject *const cmdoutput);
-    void setSpeed(WgetProgressObject *const cmdoutput);
-    void setTime(WgetProgressObject *const cmdoutput);
-    void setOutput(WgetProgressObject *const cmdoutput);
     void on_btnRestart_clicked();
     void on_btnAdd_clicked();
 
 private:
-    void setItem(const QString status, int row, int index);
-    void setItem(const int status, int row);
     Ui::MainWindow *ui;
     QList<DownloadFile*> listOfDownloads;
     int downloadsCount;
     void stopButtonChange(bool enable);
     int getTableWidgetRow();
-    int getTableWidgetRow(QTableWidgetItem *item);
-    void processStatus(WgetProgressObject *wpo);
 };
 
 #endif // MAINWINDOW_H

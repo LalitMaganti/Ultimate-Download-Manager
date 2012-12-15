@@ -15,14 +15,10 @@ public:
     void pause();
     void restart();
 
-    // Variables
+    // Variables - TO-DO - MAKE THIS PRIVATE AND INTRODUCE METHODS TO GET/SET
     int tabIndex;
-    bool resumable;
-    bool started;
-    QString outdir;
-    QString fullPath;
-    QString miscArgs;
-    bool overwriteRestart;
+    bool resumable, started, overwriteRestart;
+    QString outDir, fullPath, miscArgs;
 
 private:
     QStringList args;

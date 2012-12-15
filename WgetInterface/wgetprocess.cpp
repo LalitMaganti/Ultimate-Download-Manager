@@ -80,9 +80,7 @@ inline void WgetProcess::processProgress(QString *const line)
 void WgetProcess::processRawData(QString *const line)
 {
     if(line->contains("Length: "))
-    {
         processLength(line);
-    }
     else if(line->contains("Saving to:"))
     {
         progressObject.output = line->right(line->length() - line->indexOf('`')).remove('\'').remove('`');
@@ -99,8 +97,7 @@ void WgetProcess::processRawData(QString *const line)
 
 inline void WgetProcess::processTime(QString *const line)
 {
-    QString substring1;
-    QString substring2;
+    QString substring1, substring2;
     if(line->contains("100%"))
     {
         substring1 = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
@@ -137,7 +134,6 @@ inline void WgetProcess::processTime(QString *const line)
 
 QString* WgetProcess::processTime(const QChar big, const QChar small, QString *const substring2)
 {
-
     QString *time = new QString[2];
     time[0] = substring2->left(substring2->indexOf(big));
     time[1] = substring2->right(substring2->length() - substring2->indexOf(big) - 1).remove(small);
@@ -151,8 +147,7 @@ QString* WgetProcess::processTime(const QChar big, const QChar small, QString *c
 
 inline void WgetProcess::processSpeed(QString *const line)
 {
-    QString substring1;
-    QString substring2;
+    QString substring1, substring2;
     if(line->contains("100%"))
     {
         substring1 = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();

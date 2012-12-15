@@ -10,19 +10,18 @@ TEMPLATE = lib
 DEFINES += WGETINTERFACE_LIBRARY
 
 SOURCES += downloadfile.cpp \
-    wgetprocess.cpp
+           wgetprocess.cpp
 
 HEADERS += downloadfile.h \
-    wgetprocess.h \
-    wgetprogressobject.h
+           wgetprocess.h \
+           wgetprogressobject.h
 
 !windows:QMAKE_CXXFLAGS += -std=c++0x
+windows:CONFIG += static
+else:CONFIG += static
 
-unix:!symbian {
+unix {
+    CONFIG(debug, debug|release):CONFIG += shared
     target.path = /usr/lib
     INSTALLS += target
 }
-
-unix:CONFIG(debug, debug|release):CONFIG += shared
-windows:CONFIG += static
-else:CONFIG += static

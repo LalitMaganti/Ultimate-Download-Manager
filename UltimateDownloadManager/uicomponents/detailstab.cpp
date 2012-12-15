@@ -1,6 +1,4 @@
 #include "detailstab.h"
-#include <QLabel>
-#include "QTableWidgetItem"
 
 DetailsTab::DetailsTab(DownloadFile *df)
 {

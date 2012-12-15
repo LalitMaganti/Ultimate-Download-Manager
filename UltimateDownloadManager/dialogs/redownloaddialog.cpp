@@ -1,5 +1,4 @@
-#include "dialogheader/redownloaddialog.h"
-#include "ui_redownloaddialog.h"
+#include "dialogs/redownloaddialog.h"
 
 RedownloadDialog::RedownloadDialog(DownloadFile *dfa, QWidget *parent) :
     QDialog(parent),

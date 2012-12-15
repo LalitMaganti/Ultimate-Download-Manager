@@ -11,9 +11,10 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
-
 #include "downloadfile.h"
-#include "miscstuff.h"
+#include "miscdeclarations.h"
+#include "miscfunctions.h"
+#include "ui_adddialog.h"
 
 namespace Ui {
 class AddDialog;

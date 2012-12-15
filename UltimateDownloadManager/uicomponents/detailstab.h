@@ -6,8 +6,9 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QLabel>
+#include <QTableWidgetItem>
 
-#include "wgetprogressobject.h"
 #include "downloadfile.h"
 
 class DetailsTab : public QWidget
@@ -18,8 +19,10 @@ public:
     ~DetailsTab();
     DownloadFile *downloadFile;
     void setupUi();
+
 private slots:
     void outputCommand( WgetProgressObject *const cmdoutput);
+
 private:
     void deleteUi();
     QTextEdit *txtOutput;

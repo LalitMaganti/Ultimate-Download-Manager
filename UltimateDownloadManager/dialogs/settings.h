@@ -5,7 +5,9 @@
 #include <QDir>
 #include <QFileDialog>
 
-#include "miscstuff.h"
+#include "miscdeclarations.h"
+#include "miscfunctions.h"
+#include "ui_settings.h"
 
 namespace Ui {
 class Settings;

@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     if(!QFile::exists("wget.exe"))
     {
         QMessageBox k;
-        k.setText("Wget not found");
+        k.setText("wget not found in the same directory as the program!");
         k.show();
         return a.exec();
     }

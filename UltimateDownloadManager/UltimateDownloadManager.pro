@@ -11,21 +11,24 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
            mainwindow.cpp \
-           dialogsource/adddialog.cpp \
-           detailstab.cpp \
-           dialogsource/settings.cpp \
-           dialogsource/aboutdialog.cpp \
-           dialogsource/redownloaddialog.cpp
+           uicomponents/detailstab.cpp \
+           dialogs/adddialog.cpp \
+           dialogs/settings.cpp \
+           dialogs/aboutdialog.cpp \
+           dialogs/redownloaddialog.cpp \
+           uicomponents/udmtablewidget.cpp
 
 HEADERS  += mainwindow.h \
             mainwindow.h \
-            dialogheader/adddialog.h \
-            detailstab.h \
-            downloadtabwidget.h \
-            dialogheader/settings.h \
-            dialogheader/aboutdialog.h \
-            dialogheader/redownloaddialog.h \
-            miscstuff.h
+            uicomponents/detailstab.h \
+            uicomponents/downloadtabwidget.h \
+            dialogs/adddialog.h \
+            dialogs/settings.h \
+            dialogs/aboutdialog.h \
+            dialogs/redownloaddialog.h \
+            uicomponents/udmtablewidget.h \
+            miscfunctions.h \
+            miscdeclarations.h
 
 FORMS    += mainwindow.ui \
             dialogui/adddialog.ui \
@@ -33,22 +36,22 @@ FORMS    += mainwindow.ui \
             dialogui/aboutdialog.ui \
             dialogui/redownloaddialog.ui
 
+windows:RC_FILE = images/icon.rc
 !windows:QMAKE_CXXFLAGS += -std=c++0x
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/release -lwgetinterface
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../WgetInterface/debug -lwgetinterface
-else:unix:!symbian: LIBS += -L$$OUT_PWD/../WgetInterface/ -lwgetinterface
 
-
-windows:RC_FILE = images/icon.rc
+unix {
+    LIBS += -L$$OUT_PWD/../WgetInterface/ -lwgetinterface
+    target.path = /usr/bin
+    INSTALLS += target
+}
 
 INCLUDEPATH += $$PWD/../WgetInterface
 DEPENDPATH += $$PWD/../WgetInterface
 
-unix:!symbian {
-    target.path = /usr/bin
-    INSTALLS += target
-}
+
 
 OTHER_FILES += \
     images/UDM.ico \
