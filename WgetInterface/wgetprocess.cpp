@@ -5,29 +5,29 @@ WgetProcess::WgetProcess()
     setReadChannel(QProcess::StandardError);
     connect(this, SIGNAL(readyReadStandardError()), this, SLOT(readWgetLine()));
     connect(this, SIGNAL(finished(int)), this, SLOT(processFinished(int)));
-    progressObject.progressInt = 0;
-    progressObject.status = "Pending";
-    progressObject.length = "Pending";
-    progressObject.speed = "Pending";
-    progressObject.time = "Pending";
-    progressObject.output = "Pending";
-    progressObject.buffer = "Download not started";
+    writeprogressInt(0);
+    writestatus("Pending");
+    writelength("Pending");
+    writespeed("Pending");
+    writetime("Pending");
+    writeoutput("Pending");
+    buffer = "Download not started";
 }
 
 void WgetProcess::startWget(QStringList args)
 {
-    progressObject.status = "Running";
-    progressObject.length = "Processing";
-    progressObject.speed = "Processing";
-    progressObject.time = "Processing";
-    progressObject.output = "Processing";
-    progressObject.buffer = "";
-    emit(lengthChanged(&progressObject));
-    emit(wgetStatusChanged(&progressObject));
-    emit(speedChanged(&progressObject));
-    emit(timeChanged(&progressObject));
-    emit(progressChanged(&progressObject));
-    emit(outputChanged(&progressObject));
+    m_status = "Running";
+    m_length = "Processing";
+    m_speed = "Processing";
+    m_time = "Processing";
+    m_output = "Processing";
+    buffer = "";
+    //emit(lengthChanged(this));
+    //emit(statusChanged(this));
+    //emit(speedChanged(this));
+    //emit(timeChanged(this));
+    //emit(progressChanged(this));
+    //emit(outputChanged(this));
     start("wget", args);
 }
 
@@ -36,10 +36,10 @@ void WgetProcess::readWgetLine()
     if(canReadLine())
     {
         QString line = readLine();
-        progressObject.rawLine = line;
-        progressObject.buffer += line;
+        m_rawLine = line;
+        buffer += line;
         processRawData(&line);
-        emit lineRead(&progressObject);
+        //emit lineRead(this);
     }
 }
 
@@ -47,22 +47,22 @@ inline void WgetProcess::processLength(QString *const line)
 {
     if (line->contains("unspecified"))
     {
-        progressObject.length = "Unknown - HTML file?";
+        m_length = "Unknown - HTML file?";
         //SHOULD BE -1 - IMPLEMENT ERROR CATCH IN FUTURE
-        progressObject.progressInt = 100;
-        progressObject.speed = "Unknown";
-        progressObject.time = "Unknown";
-        emit(progressChanged(&progressObject));
-        emit(speedChanged(&progressObject));
-        emit(timeChanged(&progressObject));
+        m_progressInt = 100;
+        m_speed = "Unknown";
+        m_time = "Unknown";
+        //emit(progressChanged(this));
+        //emit(speedChanged(this));
+        //emit(timeChanged(this));
     }
     else
     {
         QString substring1 = line->right(line->length() - line->indexOf("(") - 1);
         substring1 = substring1.left(substring1.indexOf(")"));
-        progressObject.length = substring1;
+        m_length = substring1;
     }
-    emit(lengthChanged(&progressObject));
+    //emit(lengthChanged(this));
 }
 
 inline void WgetProcess::processProgress(QString *const line)
@@ -70,10 +70,10 @@ inline void WgetProcess::processProgress(QString *const line)
 
     QString substring1 = line->left(line->lastIndexOf('%'));
     int substring2 = substring1.right(substring1.length() - substring1.lastIndexOf('.')).remove('.').trimmed().toInt();
-    if (!(progressObject.progressInt == substring2))
+    if (!(m_progressInt == substring2))
     {
-        progressObject.progressInt = substring2;
-        emit(progressChanged(&progressObject));
+        m_progressInt = substring2;
+        //emit(progressChanged(this));
     }
 }
 
@@ -83,11 +83,11 @@ void WgetProcess::processRawData(QString *const line)
         processLength(line);
     else if(line->contains("Saving to:"))
     {
-        progressObject.output = line->right(line->length() - line->indexOf('`')).remove('\'').remove('`');
-        emit(outputChanged(&progressObject));
+        m_output = line->right(line->length() - line->indexOf('`')).remove('\'').remove('`');
+        //emit(outputChanged(this));
 
     }
-    else if(line->contains('%') && line->contains(". .") && (!(progressObject.length == "Unknown - HTML file?")))
+    else if(line->contains('%') && line->contains(". .") && (!(m_length == "Unknown - HTML file?")))
     {
         processProgress(line);
         processTime(line);
@@ -109,8 +109,8 @@ inline void WgetProcess::processTime(QString *const line)
         substring2 = line->right(line->length() - line->lastIndexOf('%')).remove('%').trimmed();
         substring2 = substring2.remove(0, 5).trimmed();
     }
-        progressObject.time = "";
-        QString *final = &progressObject.time;
+        m_time = "";
+        QString *final = &m_time;
         QString *time;
         if (substring2.contains('d'))
         {
@@ -129,7 +129,7 @@ inline void WgetProcess::processTime(QString *const line)
         }
         else
             *final = substring2.remove('s') + " second(s)";
-    emit(timeChanged(&progressObject));
+    //emit(timeChanged(this));
 }
 
 QString* WgetProcess::processTime(const QChar big, const QChar small, QString *const substring2)
@@ -159,30 +159,30 @@ inline void WgetProcess::processSpeed(QString *const line)
         substring1 = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
         substring2 = substring1.left(substring1.indexOf(" "));
     }
-    if (!(progressObject.speed == substring2))
+    if (!(m_speed == substring2))
     {
-        progressObject.speed = substring2;
-        emit(speedChanged(&progressObject));
+        m_speed = substring2;
+        //emit(speedChanged(this));
     }
 }
 
 void WgetProcess::terminateWget()
 {
-    if (!(progressObject.status == "Paused"))
+    if (!(m_status == "Paused"))
     {
-        progressObject.status = "Stopped";
+        m_status = "Stopped";
         terminate();
     }
     else
     {
-        progressObject.status = "Stopped";
-        emit(wgetStatusChanged(&progressObject));
+        m_status = "Stopped";
+        //emit(statusChanged(this));
     }
 }
 
 void WgetProcess::pauseWget()
 {
-    progressObject.status = "Paused";
+    m_status = "Paused";
     terminate();
 }
 
@@ -193,12 +193,82 @@ void WgetProcess::restartWget(const QStringList args)
 
 void WgetProcess::processFinished(int code)
 {
-    if (!(progressObject.status == "Paused" || progressObject.status == "Stopped"))
+    if (!(m_status == "Paused" || m_status == "Stopped"))
     {
         if (code == 0)
-            progressObject.status = "Finished";
+            m_status = "Finished";
         else
-            progressObject.status = "Failed";
-        emit(wgetStatusChanged(&progressObject));
+            m_status = "Failed";
+        //emit(statusChanged(this));
     }
+}
+
+int WgetProcess::progressInt()
+{
+    return m_progressInt;
+}
+
+QString WgetProcess::speed()
+{
+    return m_speed;
+}
+
+QString WgetProcess::time()
+{
+    return m_time;
+}
+
+QString WgetProcess::length()
+{
+    return m_length;
+}
+
+QString WgetProcess::status()
+{
+    return m_status;
+}
+
+QString WgetProcess::output()
+{
+    return m_output;
+}
+
+QString WgetProcess::rawLine()
+{
+    return m_rawLine;
+}
+
+void WgetProcess::writeprogressInt(int write)
+{
+    m_progressInt = write;
+}
+
+void WgetProcess::writespeed(QString write)
+{
+    m_speed = write;
+}
+
+void WgetProcess::writetime(QString write)
+{
+    m_time = write;
+}
+
+void WgetProcess::writelength(QString write)
+{
+    m_length = write;
+}
+
+void WgetProcess::writestatus(QString write)
+{
+    m_status = write;
+}
+
+void WgetProcess::writeoutput(QString write)
+{
+    m_output = write;
+}
+
+void WgetProcess::writerawLine(QString write)
+{
+    m_rawLine = write;
 }

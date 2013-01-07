@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets dialogheader network
+QT       += core gui widgets network
 
 TARGET = ultimatedownloadmanager
 TEMPLATE = app
@@ -31,10 +31,10 @@ HEADERS  += mainwindow.h \
             miscdeclarations.h
 
 FORMS    += mainwindow.ui \
-            dialogui/adddialog.ui \
-            dialogui/settings.ui \
-            dialogui/aboutdialog.ui \
-            dialogui/redownloaddialog.ui
+            dialogs/adddialog.ui \
+            dialogs/settings.ui \
+            dialogs/aboutdialog.ui \
+            dialogs/redownloaddialog.ui
 
 windows:RC_FILE = images/icon.rc
 !windows:QMAKE_CXXFLAGS += -std=c++0x

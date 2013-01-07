@@ -29,13 +29,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setStatus(WgetProgressObject *const progressObject)
+void MainWindow::setStatus(WgetProcess *const progressObject)
 {
     processStatus(progressObject);
-    ui->tableWidget->setItem(progressObject->status, progressObject->row, Status);
+    ui->tableWidget->setItem(progressObject->status(), progressObject->row, Status);
 }
 
-inline void MainWindow::processStatus(WgetProgressObject *wpo)
+inline void MainWindow::processStatus(WgetProcess *wpo)
 {
     ui->tableWidget->processStatus(wpo);
     MiscFunctions::stopButtonChange(false, ui);
@@ -66,8 +66,9 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
 {
     if (ui->tableWidget->selectedItems().count() > 0)
     {
-        WgetProgressObject *wpo = &listOfDownloads[getTableWidgetRow()]->progressObject;
-        bool enable = ((wpo->status == "Finished") || (wpo->status == "Stopped") || (wpo->status == "Failed"));
+        DownloadFile *wpo = listOfDownloads[getTableWidgetRow()];
+        QString status = wpo->status();
+        bool enable = ((status == "Finished") || (status == "Stopped") || (status == "Failed"));
         MiscFunctions::stopButtonChange(!enable, ui);
     }
 }
@@ -85,7 +86,7 @@ void MainWindow::on_actionQuit_triggered()
 void MainWindow::on_btnStartPause_clicked()
 {
     DownloadFile *selectedDownload = listOfDownloads[getTableWidgetRow()];
-    if (selectedDownload->progressObject.status == "Running")
+    if (selectedDownload->status() == "Running")
     {
         selectedDownload->pause();
         ui->btnStartPause->setText("Start");
@@ -119,8 +120,8 @@ void MainWindow::on_btnDelete_clicked()
     {
         df = listOfDownloads[i];
         if (!(df->tabIndex == -1))
-            ui->tabWidgetMain->setTabText(df->tabIndex, "Download " + QString::number(df->progressObject.row));
-        --df->progressObject.row;
+            ui->tabWidgetMain->setTabText(df->tabIndex, "Download " + QString::number(df->row));
+        --df->row;
     }
     ui->btnRestart->setEnabled(false);
     ui->btnDelete->setEnabled(false);
@@ -149,7 +150,7 @@ inline int MainWindow::getTableWidgetRow()
     if (selectedTab == 0)
         return  ui->tableWidget->currentRow();
     else
-        return  ((DetailsTab*)ui->tabWidgetMain->currentWidget())->downloadFile->progressObject.row;
+        return  ((DetailsTab*)ui->tabWidgetMain->currentWidget())->downloadFile->row;
 }
 
 void MainWindow::on_btnRestart_clicked()
@@ -163,26 +164,26 @@ void MainWindow::on_btnAdd_clicked()
 {
     AddDialog add;
     int result = add.exec();
-    DownloadFile *const df = add.fileGlobal;
+    DownloadFile *df = add.fileGlobal;
     if ((result == QDialog::Accepted) && !(add.url == ""))
     {
         listOfDownloads.append(df);
         downloadsCount = listOfDownloads.count();
         MiscFunctions::connectWgetAndMainWindow(df, this, ui);
         ui->tableWidget->setRowCount(downloadsCount);
-        df->progressObject.row = (ui->tableWidget->rowCount() - 1);
-        ui->tableWidget->setItem(add.url, df->progressObject.row, URL);
+        df->row = (ui->tableWidget->rowCount() - 1);
+        ui->tableWidget->setItem(add.url, df->row, URL);
         QProgressBar *pgbar = new QProgressBar();
-        ui->tableWidget->setCellWidget(df->progressObject.row, Progress, pgbar);
+        ui->tableWidget->setCellWidget(df->row, Progress, pgbar);
         if (add.start)
             df->download();
         else
         {
-            setStatus(&df->progressObject);
-            ui->tableWidget->setProgress(&df->progressObject);
-            ui->tableWidget->setFileSize(&df->progressObject);
-            ui->tableWidget->setSpeed(&df->progressObject);
-            ui->tableWidget->setTime(&df->progressObject);
+            setStatus(df);
+            ui->tableWidget->setProgress(df);
+            ui->tableWidget->setFileSize(df);
+            ui->tableWidget->setSpeed(df);
+            ui->tableWidget->setTime(df);
             ui->btnStartPause->setText("Start");
         }
     }

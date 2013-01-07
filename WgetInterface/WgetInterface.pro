@@ -13,8 +13,7 @@ SOURCES += downloadfile.cpp \
            wgetprocess.cpp
 
 HEADERS += downloadfile.h \
-           wgetprocess.h \
-           wgetprogressobject.h
+           wgetprocess.h
 
 !windows:QMAKE_CXXFLAGS += -std=c++0x
 windows:CONFIG += static

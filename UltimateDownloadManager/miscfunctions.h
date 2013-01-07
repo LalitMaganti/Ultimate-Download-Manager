@@ -14,13 +14,14 @@ class MiscFunctions
 public:
     inline static void connectWgetAndMainWindow(const DownloadFile *wp, QMainWindow *mw, Ui::MainWindow *ui)
     {
-        QObject::connect(wp, SIGNAL(lengthChanged(WgetProgressObject *const)), ui->tableWidget, SLOT(setFileSize(WgetProgressObject* const)));
-        QObject::connect(wp, SIGNAL(wgetStatusChanged(WgetProgressObject *const)), mw, SLOT(setStatus(WgetProgressObject *const)));
-        QObject::connect(wp, SIGNAL(progressChanged(WgetProgressObject *const)), ui->tableWidget, SLOT(setProgress(WgetProgressObject* const)));
-        QObject::connect(wp, SIGNAL(speedChanged(WgetProgressObject* const)), ui->tableWidget, SLOT(setSpeed(WgetProgressObject* const)));
-        QObject::connect(wp, SIGNAL(timeChanged(WgetProgressObject* const)), ui->tableWidget, SLOT(setTime(WgetProgressObject* const)));
-        QObject::connect(wp, SIGNAL(outputChanged(WgetProgressObject*const)), ui->tableWidget, SLOT(setOutput(WgetProgressObject* const)));
+        QObject::connect(wp, SIGNAL(lengthChanged(WgetProcess *const)), ui->tableWidget, SLOT(setFileSize(WgetProcess* const)));
+        QObject::connect(wp, SIGNAL(statusChanged(WgetProcess *const)), mw, SLOT(setStatus(WgetProcess *const)));
+        QObject::connect(wp, SIGNAL(progressChanged(WgetProcess *const)), ui->tableWidget, SLOT(setProgress(WgetProcess* const)));
+        QObject::connect(wp, SIGNAL(speedChanged(WgetProcess* const)), ui->tableWidget, SLOT(setSpeed(WgetProcess* const)));
+        QObject::connect(wp, SIGNAL(timeChanged(WgetProcess* const)), ui->tableWidget, SLOT(setTime(WgetProcess* const)));
+        QObject::connect(wp, SIGNAL(outputChanged(WgetProcess*const)), ui->tableWidget, SLOT(setOutput(WgetProcess* const)));
     }
+
     inline static void stopButtonChange(bool enable, Ui::MainWindow *ui)
     {
         ui->pushButton_2->setEnabled(enable);
@@ -28,6 +29,7 @@ public:
         ui->btnDelete->setEnabled(!enable);
         ui->btnRestart->setEnabled(enable);
     }
+
     inline static QString getOutDirectory()
     {
         QSettings settings;

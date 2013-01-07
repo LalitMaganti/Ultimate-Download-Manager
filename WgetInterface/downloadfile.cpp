@@ -9,7 +9,7 @@ DownloadFile::DownloadFile(QString urlarg)
 
 DownloadFile::~DownloadFile()
 {
-    if (!(progressObject.status == "Finished"))
+    if (!(m_status == "Finished"))
         stopProcess();
 }
 

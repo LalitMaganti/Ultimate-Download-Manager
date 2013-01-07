@@ -33,8 +33,8 @@ private slots:
     void on_actionSettings_triggered();
     void on_actionOpen_Download_Directory_triggered();
     void on_actionAbout_triggered();
-    void processStatus(WgetProgressObject *wpo);
-    void setStatus(WgetProgressObject *const cmdoutput);
+    void processStatus(WgetProcess *wpo);
+    void setStatus(WgetProcess *const cmdoutput);
     void on_btnRestart_clicked();
     void on_btnAdd_clicked();
 

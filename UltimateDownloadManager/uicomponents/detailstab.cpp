@@ -3,8 +3,8 @@
 DetailsTab::DetailsTab(DownloadFile *df)
 {
     downloadFile = df;
-    if (!(downloadFile->progressObject.status == "Finished"))
-        connect(downloadFile, SIGNAL(lineRead(WgetProgressObject *const)), this, SLOT(outputCommand(WgetProgressObject *const)));
+    if (!(downloadFile->status() == "Finished"))
+        connect(downloadFile, SIGNAL(lineRead(WgetProcess *const)), this, SLOT(outputCommand(WgetProcess *const)));
     setupUi();
 }
 
@@ -25,12 +25,12 @@ inline void DetailsTab::setupUi()
     mainLayout = new QGridLayout;
     txtOutput = new QTextEdit;
     txtOutput->setReadOnly(true);
-    txtOutput->setText(downloadFile->progressObject.buffer);
+    txtOutput->setText(downloadFile->buffer);
     mainLayout->addWidget(txtOutput, 0, 0, 1, 5);
     setLayout(mainLayout);
 }
 
-void DetailsTab::outputCommand(WgetProgressObject *const cmdoutput)
+void DetailsTab::outputCommand(WgetProcess *const cmdoutput)
 {
-    txtOutput->append(cmdoutput->rawLine);
+    txtOutput->append(cmdoutput->rawLine());
 }

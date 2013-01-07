@@ -3,7 +3,7 @@
 
 #include <QTableWidget>
 #include <QProgressBar>
-#include "wgetprogressobject.h"
+#include "wgetprocess.h"
 #include "miscdeclarations.h"
 
 class UDMTableWidget : public QTableWidget
@@ -12,18 +12,18 @@ class UDMTableWidget : public QTableWidget
 public:
     UDMTableWidget(QWidget *parent = 0){parent++;}
     int getRow(QTableWidgetItem *item);
-    void processStatus(WgetProgressObject *cmdoutput);
+    void processStatus(WgetProcess *cmdoutput);
     void setItem(const QString stringToWrite, int row, int index);
 
 private:
     void setItem(const int progress, int row);
 
 public slots:
-    void setProgress(WgetProgressObject *const cmdoutput);
-    void setFileSize(WgetProgressObject *const cmdoutput);
-    void setSpeed(WgetProgressObject *const cmdoutput);
-    void setTime(WgetProgressObject *const cmdoutput);
-    void setOutput(WgetProgressObject *const cmdoutput);
+    void setProgress(WgetProcess *const cmdoutput);
+    void setFileSize(WgetProcess *const cmdoutput);
+    void setSpeed(WgetProcess *const cmdoutput);
+    void setTime(WgetProcess *const cmdoutput);
+    void setOutput(WgetProcess *const cmdoutput);
 };
 
 #endif // UDMTABLEWIDGET_H

@@ -21,7 +21,7 @@ public:
     void setupUi();
 
 private slots:
-    void outputCommand( WgetProgressObject *const cmdoutput);
+    void outputCommand(WgetProcess *const cmdoutput);
 
 private:
     void deleteUi();

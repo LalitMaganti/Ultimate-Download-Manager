@@ -2,8 +2,8 @@
 #define MISCDECLARATIONS_H
 
 static const int majorVersion = 0;
-static const int minorVersion = 8;
-static const int buildVersion = 10;
+static const int minorVersion = 9;
+static const int buildVersion = 1;
 
 enum tableRow
 {

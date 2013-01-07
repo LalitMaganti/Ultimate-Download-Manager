@@ -23,47 +23,47 @@ inline void UDMTableWidget::setItem(const QString stringToWrite, int row, int in
         item(row, index)->setText(stringToWrite);
 }
 
-void UDMTableWidget::setFileSize(WgetProgressObject *const progressObject)
+void UDMTableWidget::setFileSize(WgetProcess *const progressObject)
 {
-    setItem(progressObject->length, progressObject->row, FileSize);
+    setItem(progressObject->length(), progressObject->row, FileSize);
 }
 
-void UDMTableWidget::setProgress(WgetProgressObject *const progressObject)
+void UDMTableWidget::setProgress(WgetProcess *const progressObject)
 {
-    setItem(progressObject->progressInt, progressObject->row);
+    setItem(progressObject->progressInt(), progressObject->row);
 }
 
-void UDMTableWidget::setSpeed(WgetProgressObject *const progressObject)
+void UDMTableWidget::setSpeed(WgetProcess *const progressObject)
 {
-    setItem(progressObject->speed, progressObject->row, Speed);
+    setItem(progressObject->speed(), progressObject->row, Speed);
 }
 
-void UDMTableWidget::setTime(WgetProgressObject *const progressObject)
+void UDMTableWidget::setTime(WgetProcess *const progressObject)
 {
-    setItem(progressObject->time, progressObject->row, Time);
+    setItem(progressObject->time(), progressObject->row, Time);
 }
 
-void UDMTableWidget::setOutput(WgetProgressObject *const progressObject)
+void UDMTableWidget::setOutput(WgetProcess *const progressObject)
 {
-    setItem(progressObject->output, progressObject->row, Output);
+    setItem(progressObject->output(), progressObject->row, Output);
 }
 
-void UDMTableWidget::processStatus(WgetProgressObject *wpo)
+void UDMTableWidget::processStatus(WgetProcess *wpo)
 {
     int row = wpo->row;
-    if (wpo->status == "Finished")
+    if (wpo->status() == "Finished")
     {
-        if (wpo->length == "Processing")
+        if (wpo->length() == "Processing")
         {
             setItem("See log for more info", row, FileSize);
             setItem("Unknown", row, Speed);
             setItem("Download finished", row, Time);
         }
-        else if(wpo->length == "0 second(s)")
+        else if(wpo->length() == "0 second(s)")
             setItem("Download finished", row, Time);
         setItem("100%", row, Progress);
     }
-    else if(wpo->status == "Failed")
+    else if(wpo->status() == "Failed")
     {
         setItem("See log for more info", row, FileSize);
         setItem("Unknown", row, Progress);
