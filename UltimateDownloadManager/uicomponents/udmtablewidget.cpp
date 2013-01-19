@@ -1,70 +1,73 @@
 #include "uicomponents/udmtablewidget.h"
 
-int UDMTableWidget::getRow(QTableWidgetItem *item)
-{
+int UDMTableWidget::getRow(QTableWidgetItem *item) {
     return item->row();
 }
 
-inline void UDMTableWidget::setItem(const int progress, int row)
-{
+void UDMTableWidget::setStatus(const QString d, int row) {
+    setItem(d, row, Status);
+}
+
+void UDMTableWidget::setupNewItem(WgetProcess *wp, QString url) {
+    connect(wp, &WgetProcess::lengthChanged, this, &UDMTableWidget::setFileSize);
+    connect(wp, &WgetProcess::progressChanged, this, &UDMTableWidget::setProgress);
+    connect(wp, &WgetProcess::speedChanged, this, &UDMTableWidget::setSpeed);
+    connect(wp, &WgetProcess::timeChanged, this, &UDMTableWidget::setTime);
+    connect(wp, &WgetProcess::outputChanged, this, &UDMTableWidget::setOutput);
+
+    setItem(url, wp->row, URL);
+    setCellWidget(wp->row, Progress, new QProgressBar());
+}
+
+inline void UDMTableWidget::setItem(const int progress, int row) {
     ((QProgressBar*)(cellWidget(row, Progress)))->setValue(progress);
 }
 
-inline void UDMTableWidget::setItem(const QString stringToWrite, int row, int index)
-{
-    if (item(row, index) == 0x0)
-    {
+inline void UDMTableWidget::setItem(const QString stringToWrite, int row, int index) {
+    if (item(row, index) == 0x0) {
         QTableWidgetItem *item = new QTableWidgetItem(stringToWrite);
         item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
         QTableWidget::setItem(row, index, item);
         resizeColumnsToContents();
-    }
-    else
+    } else {
         item(row, index)->setText(stringToWrite);
+    }
 }
 
-void UDMTableWidget::setFileSize(WgetProcess *const progressObject)
-{
-    setItem(progressObject->length(), progressObject->row, FileSize);
+void UDMTableWidget::setFileSize(QString cmdoutput, int row) {
+    setItem(cmdoutput, row, FileSize);
 }
 
-void UDMTableWidget::setProgress(WgetProcess *const progressObject)
-{
-    setItem(progressObject->progressInt(), progressObject->row);
+void UDMTableWidget::setProgress(int cmdoutput, int row) {
+    setItem(cmdoutput, row);
 }
 
-void UDMTableWidget::setSpeed(WgetProcess *const progressObject)
-{
-    setItem(progressObject->speed(), progressObject->row, Speed);
+void UDMTableWidget::setSpeed(QString cmdoutput, int row) {
+    setItem(cmdoutput, row, Speed);
 }
 
-void UDMTableWidget::setTime(WgetProcess *const progressObject)
-{
-    setItem(progressObject->time(), progressObject->row, Time);
+void UDMTableWidget::setTime(QString cmdoutput, int row) {
+    setItem(cmdoutput, row, Time);
 }
 
-void UDMTableWidget::setOutput(WgetProcess *const progressObject)
-{
-    setItem(progressObject->output(), progressObject->row, Output);
+void UDMTableWidget::setOutput(QString cmdoutput, int row) {
+    setItem(cmdoutput, row, Output);
 }
 
-void UDMTableWidget::processStatus(WgetProcess *wpo)
-{
+void UDMTableWidget::processStatus(WgetProcess *wpo) {
     int row = wpo->row;
-    if (wpo->status() == "Finished")
-    {
-        if (wpo->length() == "Processing")
-        {
+    if (wpo->status == "Finished") {
+        if (wpo->length == "Processing") {
             setItem("See log for more info", row, FileSize);
             setItem("Unknown", row, Speed);
             setItem("Download finished", row, Time);
         }
-        else if(wpo->length() == "0 second(s)")
+        else if(wpo->length == "0 second(s)") {
             setItem("Download finished", row, Time);
+        }
         setItem("100%", row, Progress);
     }
-    else if(wpo->status() == "Failed")
-    {
+    else if(wpo->status == "Failed") {
         setItem("See log for more info", row, FileSize);
         setItem("Unknown", row, Progress);
         setItem("Unknown", row, Speed);

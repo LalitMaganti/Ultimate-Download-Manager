@@ -1,27 +1,24 @@
 #include "detailstab.h"
 
-DetailsTab::DetailsTab(DownloadFile *df)
-{
+DetailsTab::DetailsTab(DownloadFile *df) {
     downloadFile = df;
-    if (!(downloadFile->status() == "Finished"))
+    if (!(downloadFile->status == "Finished")) {
         connect(downloadFile, SIGNAL(lineRead(WgetProcess *const)), this, SLOT(outputCommand(WgetProcess *const)));
+    }
     setupUi();
 }
 
-DetailsTab::~DetailsTab()
-{
+DetailsTab::~DetailsTab() {
     deleteUi();
     downloadFile->tabIndex = -1;
 }
 
-inline void DetailsTab::deleteUi()
-{
+inline void DetailsTab::deleteUi() {
     delete txtOutput;
     delete mainLayout;
 }
 
-inline void DetailsTab::setupUi()
-{
+inline void DetailsTab::setupUi() {
     mainLayout = new QGridLayout;
     txtOutput = new QTextEdit;
     txtOutput->setReadOnly(true);
@@ -30,7 +27,6 @@ inline void DetailsTab::setupUi()
     setLayout(mainLayout);
 }
 
-void DetailsTab::outputCommand(WgetProcess *const cmdoutput)
-{
-    txtOutput->append(cmdoutput->rawLine());
+void DetailsTab::outputCommand(WgetProcess *const cmdoutput) {
+    txtOutput->append(cmdoutput->rawLine);
 }

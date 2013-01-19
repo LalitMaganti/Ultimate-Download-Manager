@@ -8,13 +8,13 @@ class DownloadTabWidget : public QTabWidget
 {
     Q_OBJECT
 public:
-    DownloadTabWidget(QWidget *parent = 0){parent++;}
+    DownloadTabWidget(QWidget *parent = 0) : QTabWidget(parent){ }
 
-    void addTab(QWidget *parent, QString k)
-    {
+    void addTab(QWidget *parent, QString k) {
         QTabWidget::addTab(parent, k);
-        if(count() == 1)
-            tabBar()->tabButton(0, QTabBar::RightSide)->hide();
+        if(count() == 1) {
+            tabBar()->setTabButton(0, QTabBar::RightSide, 0);
+        }
     }
 };
 

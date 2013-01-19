@@ -5,12 +5,10 @@
 
 #include "mainwindow.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 #ifdef QT_ARCH_WINDOWS
-    if(!QFile::exists("wget.exe"))
-    {
+    if(!QFile::exists("wget.exe")) {
         QMessageBox k;
         k.setText("wget not found in the same directory as the program!");
         k.show();

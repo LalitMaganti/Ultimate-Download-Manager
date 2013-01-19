@@ -1,36 +1,31 @@
 #include "downloadfile.h"
 
-DownloadFile::DownloadFile(QString urlarg)
-{
+DownloadFile::DownloadFile(QString urlarg) {
     tabIndex = -1;
     url = urlarg;
     started = false;
 }
 
-DownloadFile::~DownloadFile()
-{
-    if (!(m_status == "Finished"))
+DownloadFile::~DownloadFile() {
+    if (!(status == "Finished")) {
         stopProcess();
+    }
 }
 
-void DownloadFile::download()
-{
+void DownloadFile::download() {
     setArgs();
     startWget(args);
 }
 
-void DownloadFile::stopProcess()
-{
+void DownloadFile::stopProcess() {
     terminateWget();
 }
 
-void DownloadFile::pause()
-{
+void DownloadFile::pause() {
     pauseWget();
 }
 
-void DownloadFile::restart()
-{
+void DownloadFile::restart() {
     bool oldresumable = resumable;
     resumable = false;
     setArgs();
@@ -38,24 +33,26 @@ void DownloadFile::restart()
     resumable = oldresumable;
 }
 
-void DownloadFile::start()
-{
-    if (started == false)
+void DownloadFile::start() {
+    if (started == false) {
         setArgs();
+    }
     restartWget(args);
 }
 
-void DownloadFile::setArgs()
-{
+void DownloadFile::setArgs() {
     args.clear();
     started = true;
-    if (!(miscArgs.isEmpty()))
+    if (!(miscArgs.isEmpty())) {
         args.append(miscArgs);
+    }
     args << url;
-    if (resumable)
+    if (resumable) {
         args << "-c";
-    if (!outDir.isEmpty())
+    }
+    if (!outDir.isEmpty()) {
         args << "-P" << outDir;
-    else
+    } else {
         args << "-O" << fullPath;
+    }
 }
