@@ -6,14 +6,9 @@
 #include "downloadfile.h"
 #include "ui_redownloaddialog.h"
 
-namespace Ui {
-class RedownloadDialog;
-}
-
 class RedownloadDialog : public QDialog
 {
     Q_OBJECT
-    
 public:
     explicit RedownloadDialog(DownloadFile *previousOutput, QWidget *parent = 0);
     ~RedownloadDialog();
@@ -24,8 +19,8 @@ private slots:
     void on_buttonBox_accepted();
 
 private:
-    Ui::RedownloadDialog *ui;
-    DownloadFile *df;
+    Ui::RedownloadDialog *ui = nullptr;
+    DownloadFile *df = nullptr;
 };
 
 #endif // REDOWNLOADDIALOG_H

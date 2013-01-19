@@ -1,18 +1,20 @@
 #ifndef WGETPROCESS_H
 #define WGETPROCESS_H
 
-#include <QProcess>
 #include <QDebug>
+#include <QProcess>
 #include <QTime>
 
 class WgetProcess : public QProcess
 {
     Q_OBJECT
-
 public:
     WgetProcess();
 
     QString buffer;
+    int row;
+
+    // Changeable props
     int progressInt;
     QString speed;
     QString time;
@@ -20,21 +22,20 @@ public:
     QString status;
     QString output;
     QString rawLine;
-    int row;
 
  protected:
-    void startWget(const QStringList args);
+    void startWget(QStringList args);
     void terminateWget();
     void pauseWget();
-    void restartWget(const QStringList args);
+    void restartWget(QStringList args);
 
 private:
-    void processRawData(QString *const line);
-    void processLength(QString *const line);
-    void processProgress(QString *const line);
-    void processTime(QString *const line);
-    void processSpeed(QString *const line);
-    QString *processTime(const QChar big, const QChar small, QString *const substring2);
+    void processRawData(QString *line);
+    void processLength(QString *line);
+    void processProgress(QString *line);
+    void processTime(QString *line);
+    void processSpeed(QString *line);
+    QString *processTime(QChar big, QChar small, QString *substring2);
 
     void writeprogressInt(int write);
     void writeSpeed(QString write);
@@ -46,15 +47,16 @@ private:
 
 signals:
     void progressChanged(int wpo, int row);
+    void statusChanged(WgetProcess *wpo);
     void speedChanged(QString wpo, int row);
     void timeChanged(QString wpo, int row);
     void lengthChanged(QString wpo, int row);
-    void statusChanged(WgetProcess *wpo);
     void outputChanged(QString wpo, int row);
     void rawLineChanged(QString wpo, int row);
 
 private slots:
     void readWgetLine();
     void processFinished(int code);
+
 };
 #endif // WGETPROCESS_H

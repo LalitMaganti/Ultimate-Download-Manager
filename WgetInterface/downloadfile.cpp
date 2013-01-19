@@ -1,6 +1,6 @@
 #include "downloadfile.h"
 
-DownloadFile::DownloadFile(QString urlarg) {
+DownloadFile::DownloadFile(QString urlarg) : WgetProcess() {
     tabIndex = -1;
     url = urlarg;
     started = false;

@@ -1,13 +1,12 @@
 #ifndef DETAILSTAB_H
 #define DETAILSTAB_H
 
-#include <QWidget>
+#include <QLabel>
 #include <QMainWindow>
+#include <QTableWidgetItem>
 #include <QTextEdit>
 #include <QVBoxLayout>
-#include <QLabel>
-#include <QLabel>
-#include <QTableWidgetItem>
+#include <QWidget>
 
 #include "downloadfile.h"
 
@@ -15,9 +14,10 @@ class DetailsTab : public QWidget
 {
     Q_OBJECT
 public:
-    DetailsTab(DownloadFile *df);
+    explicit DetailsTab(DownloadFile *df);
     ~DetailsTab();
-    DownloadFile *downloadFile;
+
+    DownloadFile *downloadFile = nullptr;
     void setupUi();
 
 private slots:
@@ -25,8 +25,8 @@ private slots:
 
 private:
     void deleteUi();
-    QTextEdit *txtOutput;
-    QGridLayout *mainLayout;
+    QTextEdit *txtOutput = nullptr;
+    QGridLayout *mainLayout = nullptr;
 };
 
 #endif // DETAILSTAB_H

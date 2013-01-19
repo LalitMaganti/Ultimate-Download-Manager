@@ -1,10 +1,10 @@
-#include "dialogs/settings.h"
+#include "settings.h"
 
 Settings::Settings(QWidget *parent) : QDialog(parent), ui(new Ui::Settings) {
     ui->setupUi(this);
     this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
     this->setFixedSize(width(), height());
-    saveLocation = MiscFunctions::getOutDirectory();
+    saveLocation = ::getOutDirectory();
     ui->lineEdit->setText(saveLocation);
 }
 

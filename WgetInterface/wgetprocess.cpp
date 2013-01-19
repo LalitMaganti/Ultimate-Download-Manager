@@ -1,6 +1,6 @@
 #include "wgetprocess.h"
 
-WgetProcess::WgetProcess() {
+WgetProcess::WgetProcess() : QProcess() {
     setReadChannel(QProcess::StandardError);
     connect(this, SIGNAL(readyReadStandardError()), this, SLOT(readWgetLine()));
     connect(this, SIGNAL(finished(int)), this, SLOT(processFinished(int)));
@@ -32,7 +32,7 @@ void WgetProcess::readWgetLine() {
     }
 }
 
-inline void WgetProcess::processLength(QString *const line) {
+inline void WgetProcess::processLength(QString *line) {
     if (line->contains("unspecified")) {
         writeLength("Unknown - HTML file?");
         //SHOULD BE -1 - IMPLEMENT ERROR CATCH IN FUTURE
@@ -46,7 +46,7 @@ inline void WgetProcess::processLength(QString *const line) {
     }
 }
 
-inline void WgetProcess::processProgress(QString *const line) {
+inline void WgetProcess::processProgress(QString *line) {
     QString substring1 = line->left(line->lastIndexOf('%'));
     int substring2 = substring1.right(substring1.length() - substring1.lastIndexOf('.')).remove('.').trimmed().toInt();
     if (!(progressInt == substring2)) {
@@ -54,7 +54,7 @@ inline void WgetProcess::processProgress(QString *const line) {
     }
 }
 
-void WgetProcess::processRawData(QString *const line) {
+void WgetProcess::processRawData(QString *line) {
     if(line->contains("Length: ")) {
         processLength(line);
     } else if(line->contains("Saving to:")) {
@@ -66,7 +66,7 @@ void WgetProcess::processRawData(QString *const line) {
     }
 }
 
-inline void WgetProcess::processTime(QString *const line) {
+inline void WgetProcess::processTime(QString *line) {
     QString substring1, substring2;
     if(line->contains("100%")) {
         substring1 = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
@@ -76,24 +76,24 @@ inline void WgetProcess::processTime(QString *const line) {
         substring2 = line->right(line->length() - line->lastIndexOf('%')).remove('%').trimmed();
         substring2 = substring2.remove(0, 5).trimmed();
     }
-    writeTime("");
-    QString *final = &time;
+    QString final;
     QString *time;
     if (substring2.contains('d')) {
         time = processTime('d', 'h', &substring2);
-        *final = time[0] + " day(s) " + time[1] + " hour(s)";
+        final = time[0] + " day(s) " + time[1] + " hour(s)";
     } else if (substring2.contains('h')) {
         time = processTime('h', 'm', &substring2);
-        *final = time[0] + " hour(s) " + time[1] + " minute(s)";
+        final = time[0] + " hour(s) " + time[1] + " minute(s)";
     } else if (substring2.contains('m')) {
         time = processTime('m', 's', &substring2);
-        *final = time[0] + " minute(s) " + time[1] + " second(s)";
+        final = time[0] + " minute(s) " + time[1] + " second(s)";
     } else {
-        *final = substring2.remove('s') + " second(s)";
+        final = substring2.remove('s') + " second(s)";
     }
+    writeTime(final);
 }
 
-QString* WgetProcess::processTime(const QChar big, const QChar small, QString *const substring2) {
+QString* WgetProcess::processTime(QChar big, QChar small, QString *substring2) {
     QString *time = new QString[2];
     time[0] = substring2->left(substring2->indexOf(big));
     time[1] = substring2->right(substring2->length() - substring2->indexOf(big) - 1).remove(small);
@@ -104,27 +104,25 @@ QString* WgetProcess::processTime(const QChar big, const QChar small, QString *c
     return time;
 }
 
-inline void WgetProcess::processSpeed(QString *const line) {
-    QString substring1, substring2;
+inline void WgetProcess::processSpeed(QString *line) {
+    QString substring, speed;
     if(line->contains("100%")) {
-        substring1 = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
-        substring2 = substring1.left(substring1.indexOf(" "));
-        substring2 = substring2.left(substring2.indexOf("="));
+        substring = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
+        speed = substring.left(substring.indexOf(" "));
+        speed = speed.left(speed.indexOf("="));
     } else {
-        substring1 = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
-        substring2 = substring1.left(substring1.indexOf(" "));
+        substring = line->right(line->length() - line->lastIndexOf('%')).trimmed().remove("%").trimmed();
+        speed = substring.left(substring.indexOf(" "));
     }
-    if (!(speed == substring2)) {
-        writeSpeed(substring2);
+    if (!(speed == speed)) {
+        writeSpeed(speed);
     }
 }
 
 void WgetProcess::terminateWget() {
+    writeStatus("Stopped");
     if (!(status == "Paused")) {
-        writeStatus("Stopped");
         terminate();
-    } else {
-        writeStatus("Stopped");
     }
 }
 
@@ -133,7 +131,7 @@ void WgetProcess::pauseWget() {
     terminate();
 }
 
-void WgetProcess::restartWget(const QStringList args) {
+void WgetProcess::restartWget(QStringList args) {
     startWget(args);
 }
 

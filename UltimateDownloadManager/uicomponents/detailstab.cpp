@@ -1,6 +1,6 @@
 #include "detailstab.h"
 
-DetailsTab::DetailsTab(DownloadFile *df) {
+DetailsTab::DetailsTab(DownloadFile *df) : QWidget() {
     downloadFile = df;
     if (!(downloadFile->status == "Finished")) {
         connect(downloadFile, SIGNAL(lineRead(WgetProcess *const)), this, SLOT(outputCommand(WgetProcess *const)));
@@ -27,6 +27,6 @@ inline void DetailsTab::setupUi() {
     setLayout(mainLayout);
 }
 
-void DetailsTab::outputCommand(WgetProcess *const cmdoutput) {
+void DetailsTab::outputCommand(WgetProcess *cmdoutput) {
     txtOutput->append(cmdoutput->rawLine);
 }

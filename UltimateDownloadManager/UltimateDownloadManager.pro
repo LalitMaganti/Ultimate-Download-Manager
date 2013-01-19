@@ -27,8 +27,7 @@ HEADERS  += mainwindow.h \
             dialogs/aboutdialog.h \
             dialogs/redownloaddialog.h \
             uicomponents/udmtablewidget.h \
-            miscfunctions.h \
-            miscdeclarations.h
+            miscfunctions.h
 
 FORMS    += mainwindow.ui \
             dialogs/adddialog.ui \
@@ -50,8 +49,10 @@ unix {
 
 INCLUDEPATH += $$PWD/../WgetInterface
 DEPENDPATH += $$PWD/../WgetInterface
-
-
+INCLUDEPATH += $$PWD/dialogs
+DEPENDPATH += $$PWD/dialogs
+INCLUDEPATH += $$PWD/uicomponents
+DEPENDPATH += $$PWD/uicomponents
 
 OTHER_FILES += \
     images/UDM.ico \

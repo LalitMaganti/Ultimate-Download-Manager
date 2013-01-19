@@ -1,11 +1,40 @@
-#include "uicomponents/udmtablewidget.h"
+#include "udmtablewidget.h"
+
+UDMTableWidget::UDMTableWidget(QWidget *parent) : QTableWidget(parent)
+{
+}
 
 int UDMTableWidget::getRow(QTableWidgetItem *item) {
     return item->row();
 }
 
-void UDMTableWidget::setStatus(const QString d, int row) {
-    setItem(d, row, Status);
+void UDMTableWidget::processStatus(WgetProcess *wpo) {
+    int row = wpo->row;
+    if (wpo->status == "Finished") {
+        if (wpo->length == "Processing") {
+            setItem("See log for more info", row, FileSize);
+            setItem("Unknown", row, Speed);
+            setItem("Download finished", row, Time);
+        } else if(wpo->length == "0 second(s)") {
+            setItem("Download finished", row, Time);
+        }
+        setItem("100%", row, Progress);
+    } else if(wpo->status == "Failed") {
+        setItem("See log for more info", row, FileSize);
+        setItem("Unknown", row, Progress);
+        setItem("Unknown", row, Speed);
+        setItem("Download failed", row, Time);
+    }
+    resizeColumnsToContents();
+
+    setStatus(wpo->status, row);
+}
+
+void UDMTableWidget::noInitialStart(DownloadFile *df) {
+    setProgress(df->progressInt, df->row);
+    setFileSize(df->length, df->row);
+    setSpeed(df->speed, df->row);
+    setTime(df->time, df->row);
 }
 
 void UDMTableWidget::setupNewItem(WgetProcess *wp, QString url) {
@@ -34,6 +63,10 @@ inline void UDMTableWidget::setItem(const QString stringToWrite, int row, int in
     }
 }
 
+void UDMTableWidget::setStatus(QString d, int row) {
+    setItem(d, row, Status);
+}
+
 void UDMTableWidget::setFileSize(QString cmdoutput, int row) {
     setItem(cmdoutput, row, FileSize);
 }
@@ -52,26 +85,4 @@ void UDMTableWidget::setTime(QString cmdoutput, int row) {
 
 void UDMTableWidget::setOutput(QString cmdoutput, int row) {
     setItem(cmdoutput, row, Output);
-}
-
-void UDMTableWidget::processStatus(WgetProcess *wpo) {
-    int row = wpo->row;
-    if (wpo->status == "Finished") {
-        if (wpo->length == "Processing") {
-            setItem("See log for more info", row, FileSize);
-            setItem("Unknown", row, Speed);
-            setItem("Download finished", row, Time);
-        }
-        else if(wpo->length == "0 second(s)") {
-            setItem("Download finished", row, Time);
-        }
-        setItem("100%", row, Progress);
-    }
-    else if(wpo->status == "Failed") {
-        setItem("See log for more info", row, FileSize);
-        setItem("Unknown", row, Progress);
-        setItem("Unknown", row, Speed);
-        setItem("Download failed", row, Time);
-    }
-    resizeColumnsToContents();
 }

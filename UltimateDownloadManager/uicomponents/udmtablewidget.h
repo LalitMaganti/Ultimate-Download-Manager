@@ -1,27 +1,28 @@
 #ifndef UDMTABLEWIDGET_H
 #define UDMTABLEWIDGET_H
 
-#include <QTableWidget>
 #include <QProgressBar>
+#include <QTableWidget>
 
-#include "wgetprocess.h"
-#include "miscdeclarations.h"
+#include "downloadfile.h"
 
 class UDMTableWidget : public QTableWidget
 {
     Q_OBJECT
 public:
-    UDMTableWidget(QWidget *parent = 0) : QTableWidget(parent) { }
+    explicit UDMTableWidget(QWidget *parent = 0);
 
+    void noInitialStart(DownloadFile *df);
     void setupNewItem(WgetProcess *wp, QString url);
-    int getRow(QTableWidgetItem *item);
-    void processStatus(WgetProcess *cmdoutput);
 
-    void setStatus(const QString d, int row);
+    int getRow(QTableWidgetItem *item);
+
+    void processStatus(WgetProcess *cmdoutput);
+    void setStatus(QString d, int row);
 
 private:
-    void setItem(const int progress, int row);
-    void setItem(const QString stringToWrite, int row, int index);
+    void setItem(int progress, int row);
+    void setItem(QString stringToWrite, int row, int index);
     enum tableRow
     {
         URL = 0,

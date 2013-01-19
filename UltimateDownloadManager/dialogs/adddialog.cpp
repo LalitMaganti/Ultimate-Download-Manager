@@ -1,4 +1,4 @@
-#include "dialogs/adddialog.h"
+#include "adddialog.h"
 
 AddDialog::AddDialog() : QDialog(), ui(new Ui::AddDialog) {
     ui->setupUi(this);
@@ -14,7 +14,7 @@ AddDialog::AddDialog() : QDialog(), ui(new Ui::AddDialog) {
     ui->lineEdit->setText(tempUrl);
     ui->btnOK->setEnabled(true);
 
-    ui->txtSave->setText(MiscFunctions::getOutDirectory());
+    ui->txtSave->setText(getOutDirectory());
 }
 
 void AddDialog::replyFinished(QNetworkReply::NetworkError network) {
@@ -36,8 +36,7 @@ void AddDialog::on_btnOK_clicked() {
     start = ui->chkStart->isChecked();
     if (ui->chkName->isChecked()) {
         fileGlobal->outDir = ui->txtSave->text();
-    }
-    else {
+    } else {
         fileGlobal->fullPath = ui->txtSave->text() + QDir::separator() + ui->txtName->text();
     }
     this->accept();
@@ -57,7 +56,7 @@ void AddDialog::on_checkBox_2_clicked() {
     ui->txtSave->setEnabled(enable);
     ui->lblSave->setEnabled(enable);
     if(!enable) {
-        ui->txtSave->setText(MiscFunctions::getOutDirectory());
+        ui->txtSave->setText(::getOutDirectory());
     }
 }
 

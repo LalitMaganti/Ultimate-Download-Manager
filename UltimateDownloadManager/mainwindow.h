@@ -1,28 +1,29 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QDesktopServices>
+#include <QDir>
 #include <QMainWindow>
 #include <QTableWidget>
 #include <QTabBar>
-#include <QDir>
-#include <QDesktopServices>
 
+#include "aboutdialog.h"
+#include "adddialog.h"
+#include "detailstab.h"
 #include "downloadfile.h"
-#include "dialogs/adddialog.h"
-#include "uicomponents/detailstab.h"
-#include "dialogs/settings.h"
-#include "dialogs/aboutdialog.h"
-#include "dialogs/redownloaddialog.h"
+#include "redownloaddialog.h"
+#include "settings.h"
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    
 public:
-    MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     
 private slots:
+    void setStatus(WgetProcess *cmdoutput);
+
     void on_pushButton_2_clicked();
     void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
     void on_tableWidget_itemSelectionChanged();
@@ -33,16 +34,13 @@ private slots:
     void on_actionSettings_triggered();
     void on_actionOpen_Download_Directory_triggered();
     void on_actionAbout_triggered();
-    void processStatus(WgetProcess *wpo);
-    void setStatus(WgetProcess *const cmdoutput);
     void on_btnRestart_clicked();
     void on_btnAdd_clicked();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow *ui = nullptr;
     QList<DownloadFile*> listOfDownloads;
     int downloadsCount;
-    void stopButtonChange(bool enable);
     int getTableWidgetRow();
 };
 

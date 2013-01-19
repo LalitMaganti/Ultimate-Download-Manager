@@ -1,14 +1,16 @@
 #ifndef DOWNLOADTABWIDGET_H
 #define DOWNLOADTABWIDGET_H
 
-#include <QTabWidget>
 #include <QTabBar>
+#include <QTabWidget>
 
 class DownloadTabWidget : public QTabWidget
 {
     Q_OBJECT
 public:
-    DownloadTabWidget(QWidget *parent = 0) : QTabWidget(parent){ }
+    explicit DownloadTabWidget(QWidget *parent = 0) : QTabWidget(parent)
+    {
+    }
 
     void addTab(QWidget *parent, QString k) {
         QTabWidget::addTab(parent, k);

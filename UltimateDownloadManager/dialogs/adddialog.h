@@ -1,34 +1,26 @@
 #ifndef ADDDIALOG_H
 #define ADDDIALOG_H
 
-#include <QDialog>
-#include <QUrl>
 #include <QClipboard>
+#include <QDialog>
 #include <QFileDialog>
-
 #include <QNetworkAccessManager>
-#include <QUrl>
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QUrl>
 
 #include "downloadfile.h"
-#include "miscdeclarations.h"
 #include "miscfunctions.h"
 #include "ui_adddialog.h"
-
-namespace Ui {
-class AddDialog;
-}
 
 class AddDialog : public QDialog
 {
     Q_OBJECT
-    
 public:
-    AddDialog();
+    explicit AddDialog();
     ~AddDialog();
     QString url;
-    DownloadFile *fileGlobal;
+    DownloadFile *fileGlobal = nullptr;
     bool start;
 
 private slots:
@@ -42,7 +34,7 @@ private slots:
     void replyFinished(QNetworkReply::NetworkError network);
 
 private:
-    Ui::AddDialog *ui;
+    Ui::AddDialog *ui = nullptr;
     QString tempUrl;
 };
 

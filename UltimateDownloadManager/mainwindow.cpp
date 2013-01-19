@@ -27,19 +27,14 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::setStatus(WgetProcess *progressObject) {
-    processStatus(progressObject);
-    ui->tableWidget->setStatus(progressObject->status, progressObject->row);
-}
-
-inline void MainWindow::processStatus(WgetProcess *wpo) {
-    ui->tableWidget->processStatus(wpo);
-    MiscFunctions::stopButtonChange(false, ui);
+    ui->tableWidget->processStatus(progressObject);
+    stopButtonChange(false, ui);
 }
 
 void MainWindow::on_pushButton_2_clicked() {
     listOfDownloads[getTableWidgetRow()]->stopProcess();
     ui->btnStartPause->setText("Pause");
-    MiscFunctions::stopButtonChange(false, ui);
+    stopButtonChange(false, ui);
     ui->btnRestart->setEnabled(false);
 }
 
@@ -47,7 +42,7 @@ void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item) {
     int rowNumber = ui->tableWidget->getRow(item);
     DownloadFile *df = listOfDownloads[rowNumber];
     if (df->tabIndex == -1) {
-        DetailsTab *const newTab = new DetailsTab(listOfDownloads[rowNumber]);
+        DetailsTab *newTab = new DetailsTab(listOfDownloads[rowNumber]);
         ui->tabWidgetMain->addTab(newTab, "Download " + QString::number(rowNumber + 1));
         df->tabIndex = ui->tabWidgetMain->count() - 1;
     }
@@ -59,7 +54,7 @@ void MainWindow::on_tableWidget_itemSelectionChanged() {
         DownloadFile *wpo = listOfDownloads[getTableWidgetRow()];
         QString status = wpo->status;
         bool enable = ((status == "Finished") || (status == "Stopped") || (status == "Failed"));
-        MiscFunctions::stopButtonChange(!enable, ui);
+        stopButtonChange(!enable, ui);
     }
 }
 
@@ -114,7 +109,7 @@ void MainWindow::on_actionSettings_triggered() {
 }
 
 void MainWindow::on_actionOpen_Download_Directory_triggered() {
-    QDesktopServices::openUrl(QUrl("file:///" + MiscFunctions::getOutDirectory()));
+    QDesktopServices::openUrl(QUrl("file:///" + getOutDirectory()));
 }
 
 void MainWindow::on_actionAbout_triggered() {
@@ -125,9 +120,9 @@ void MainWindow::on_actionAbout_triggered() {
 inline int MainWindow::getTableWidgetRow() {
     int selectedTab = ui->tabWidgetMain->currentIndex();
     if (selectedTab == 0) {
-        return  ui->tableWidget->currentRow();
+        return ui->tableWidget->currentRow();
     } else {
-        return  ((DetailsTab*)ui->tabWidgetMain->currentWidget())->downloadFile->row;
+        return ((DetailsTab*)ui->tabWidgetMain->currentWidget())->downloadFile->row;
     }
 }
 
@@ -155,10 +150,7 @@ void MainWindow::on_btnAdd_clicked() {
             df->download();
         } else {
             setStatus(df);
-            ui->tableWidget->setProgress(df->progressInt, df->row);
-            ui->tableWidget->setFileSize(df->length, df->row);
-            ui->tableWidget->setSpeed(df->speed, df->row);
-            ui->tableWidget->setTime(df->time, df->row);
+            ui->tableWidget->noInitialStart(df);
             ui->btnStartPause->setText("Start");
         }
     }

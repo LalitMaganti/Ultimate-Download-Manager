@@ -9,13 +9,13 @@ public:
     // Methods
     DownloadFile(QString url);
     ~DownloadFile();
+
     void download();
     void stopProcess();
     void start();
     void pause();
     void restart();
 
-    // Variables - TO-DO - MAKE THIS PRIVATE AND INTRODUCE METHODS TO GET/SET
     int tabIndex;
     bool resumable, started, overwriteRestart;
     QString outDir, fullPath, miscArgs;
